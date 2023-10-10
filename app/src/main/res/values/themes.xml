@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.EngZi" parent="Theme.Material3.DayNight.NoActionBar">
-
+    <style name="Base.Theme.EngZi" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:colorBackground">@color/background_primary</item>
+        <item name="android:fontFamily">@font/bevietnampro_medium</item>
     </style>
-
-    <style name="Theme.EngZi" parent="Base.Theme.EngZi" />
 </resources>
