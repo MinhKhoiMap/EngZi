@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    app:cardBackgroundColor="#0000"
+    android:layout_marginRight="10dp"
+    app:cardCornerRadius="20dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:background="@drawable/lesson_practive"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="49dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/group" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_lesson_practice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textFontWeight="700"
+                android:textSize="16dp"
+                android:text="Lesson 1" />
+
+            <TextView
+                android:id="@+id/des_lesson_practice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textFontWeight="100"
+                android:autoSizeTextType="uniform"
+                android:textSize="16dp"
+                android:text="Weather" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
