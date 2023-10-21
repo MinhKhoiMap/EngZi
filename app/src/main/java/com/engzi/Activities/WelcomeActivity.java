@@ -2,18 +2,10 @@ package com.engzi.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.engzi.Adapter.LessonPracticeAdapter;
-import com.engzi.Model.LessonPractice;
-
-
-import java.util.ArrayList;
+import android.view.View;
 
 import com.engzi.R;
 
@@ -21,32 +13,28 @@ public class WelcomeActivity extends AppCompatActivity {
     AppCompatButton login_action_btn;
     AppCompatButton signup_action_btn;
 
-    ArrayList<LessonPractice> listLesson;
-    LessonPracticeAdapter lessonListViewAdapter;
-    LessonPracticeAdapter lessonTitleListViewAdapter;
-    RecyclerView listViewLessonPractice;
-    RecyclerView listViewLessonPractice1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
-        listLesson = new ArrayList<>();
-        listLesson.add(new LessonPractice("abcc", "abcc1", "abcc12"));
-        listLesson.add(new LessonPractice("abcc", "abcc12", "abcc123"));
-        listLesson.add(new LessonPractice("abcc", "abcc21", "abcc1245"));
-        listViewLessonPractice = findViewById(R.id.list_daily_practice);
-        listViewLessonPractice1 = findViewById(R.id.list_daily_practice_two);
+        setContentView(R.layout.activity_welcome);
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(getApplicationContext());
-        mLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        listViewLessonPractice.setLayoutManager(mLayoutManager);
-        listViewLessonPractice1.setLayoutManager(mLayoutManager1);
-        lessonListViewAdapter = new LessonPracticeAdapter(listLesson);
-        listViewLessonPractice.setAdapter(lessonListViewAdapter);
-        listViewLessonPractice1.setAdapter(lessonListViewAdapter);
+        login_action_btn = findViewById(R.id.login_action_btn);
+        signup_action_btn = findViewById(R.id.signup_action_btn);
+
+
+        login_action_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loginIntent = new Intent(WelcomeActivity.this, LogInActivity.class);
+                startActivity(loginIntent);
+            }
+        });
+
+        signup_action_btn.setOnClickListener(view -> {
+            Intent signupIntent = new Intent(WelcomeActivity.this, SignUpActivity.class);
+            startActivity(signupIntent);
+        });
     }
 }
