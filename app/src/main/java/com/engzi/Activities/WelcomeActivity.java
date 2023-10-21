@@ -14,6 +14,7 @@ import com.engzi.Model.LessonPractice;
 
 
 import java.util.ArrayList;
+
 import com.engzi.R;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
     LessonPracticeAdapter lessonTitleListViewAdapter;
     RecyclerView listViewLessonPractice;
     RecyclerView listViewLessonPractice1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,5 @@ public class WelcomeActivity extends AppCompatActivity {
         lessonListViewAdapter = new LessonPracticeAdapter(listLesson);
         listViewLessonPractice.setAdapter(lessonListViewAdapter);
         listViewLessonPractice1.setAdapter(lessonListViewAdapter);
-
-
     }
 }
