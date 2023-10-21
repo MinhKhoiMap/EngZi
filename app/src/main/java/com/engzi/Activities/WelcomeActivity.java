@@ -1,6 +1,7 @@
 package com.engzi.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +15,10 @@ import com.engzi.Model.LessonPractice;
 
 import java.util.ArrayList;
 import com.engzi.R;
+
 public class WelcomeActivity extends AppCompatActivity {
+    AppCompatButton login_action_btn;
+    AppCompatButton signup_action_btn;
 
     ArrayList<LessonPractice> listLesson;
     LessonPracticeAdapter lessonListViewAdapter;

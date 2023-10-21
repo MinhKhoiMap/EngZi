@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">EngZi</string>
+    <string name="welcome_title">Welcome to</string>
+    <string name="log_in_btn">Log In</string>
+    <string name="logo_app">Logo App</string>
+    <string name="sign_up_btn">Sign Up</string>
+    <string name="sign_up_label">Sign Up</string>
+    <string name="email_edtxt_placeholder">Nhập email</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="password_edtxt_placeholder">Password</string>
+    <string name="confirm_password_label">Confirm password</string>
+    <string name="confirm_password_edtxt_placeholder">Confirm your password</string>
+    <string name="already_have_an_account_label">Already have an account?</string>
+    <string name="login_here">Login here!</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="log_in_button">Log In</string>
+    <string name="don_t_have_an_account_yet">Don’t have an account yet?</string>
+    <string name="register_here">Register Here!</string>
+    <string name="forgot_your_password">Forgot your password?</string>
 </resources>

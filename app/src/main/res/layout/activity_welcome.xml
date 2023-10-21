@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".Activities.WelcomeActivity">
 
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="185dp"
+        android:layout_marginTop="98dp"
+        android:contentDescription="@string/logo_app"
+        android:src="@drawable/ic_exams" />
+
     <TextView
+        android:id="@+id/tv_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="59dp"
+        android:fontFamily="@font/bevietnampro_extrabold"
+        android:text="@string/welcome_title"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/tv_welcome_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/bevietnampro_extrabold"
+        android:lineHeight="41.5sp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="30sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/welcome_button_selector"
+        android:backgroundTint="@null"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/log_in_btn"
+        android:textAllCaps="false"
+        android:textColor="@drawable/txtcolor_welcome_button_selector"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/welcome_button_selector"
+        android:backgroundTint="@null"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/sign_up_btn"
+        android:textAllCaps="false"
+        android:textColor="@drawable/txtcolor_welcome_button_selector"
+        android:textFontWeight="400"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

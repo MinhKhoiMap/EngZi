@@ -5,4 +5,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#884A39</color>
     <color name="background_primary">#FFF4DC</color>
+    <color name="yellow_kv">#FF9F0E</color>
 </resources>
