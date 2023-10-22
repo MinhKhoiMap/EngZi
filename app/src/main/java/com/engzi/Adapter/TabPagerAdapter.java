@@ -1,4 +1,4 @@
-package com.engzi.Activities;
+package com.engzi.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

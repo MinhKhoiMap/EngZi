@@ -1,32 +1,30 @@
 package com.engzi.Adapter;
 
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.engzi.Model.LessonPractice;
+import com.engzi.Model.LessionPractice;
 import com.engzi.R;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAdapter.MyViewHolder> {
 
-    private List<LessonPractice> listLesson;
+    private List<LessionPractice> listLesson;
 
-    public LessonPracticeAdapter(List<LessonPractice> listLesson) {
+    public LessonPracticeAdapter(List<LessionPractice> listLesson) {
         this.listLesson = listLesson;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDes;
+
         MyViewHolder(View view) {
             super(view);
             tvTitle = view.findViewById(R.id.title_lesson_practice);
@@ -34,6 +32,10 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
         }
     }
 
+    @Override
+    public int getItemCount() {
+        return listLesson.size();
+    }
 
     @NonNull
     @Override
@@ -45,13 +47,8 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        LessonPractice lp = listLesson.get(position);
-        holder.tvTitle.setText(lp.getTitle());
+        LessionPractice lp = listLesson.get(position);
+        holder.tvTitle.setText(lp.getLessionName());
         holder.tvTitle.setText(lp.getDescription());
-    }
-
-    @Override
-    public int getItemCount() {
-        return listLesson.size();
     }
 }

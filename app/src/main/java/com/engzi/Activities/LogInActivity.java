@@ -3,6 +3,7 @@ package com.engzi.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -43,6 +44,12 @@ public class LogInActivity extends AppCompatActivity {
                 login_password_edtxt.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
             return true;
+        });
+
+
+        to_signup_button.setOnClickListener(view -> {
+            Intent signupIntent = new Intent(this, SignUpActivity.class);
+            startActivity(signupIntent);
         });
     }
 }
