@@ -1,14 +1,22 @@
 package com.engzi.Model;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
     String UID;
     String profileName;
     String email;
-    Date createdDate;
+    String createdDate;
 
-    public User() {}
+    public User() {
+    }
+
+    public User(String UID, String profileName, String email, String createdDate) {
+        this.UID = UID;
+        this.profileName = profileName;
+        this.email = email;
+        this.createdDate = createdDate;
+    }
 
     public String getUID() {
         return UID;
@@ -34,11 +42,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 }

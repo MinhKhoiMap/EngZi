@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "913836079412",
-    "firebase_url": "https://android-1e590-default-rtdb.firebaseio.com",
-    "project_id": "android-1e590",
-    "storage_bucket": "android-1e590.appspot.com"
+    "project_number": "88318515001",
+    "project_id": "test-865b1",
+    "storage_bucket": "test-865b1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:913836079412:android:bb6d896ba4daf780038d61",
+        "mobilesdk_app_id": "1:88318515001:android:3b173a4cecb01fbc007ae8",
         "android_client_info": {
           "package_name": "com.engzi"
         }
@@ -16,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCpbE9pzr4gRlIEznvQNdUL2tYBchu4HBg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:913836079412:android:aaa60468f448927d038d61",
-        "android_client_info": {
-          "package_name": "com.example.btvn6"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCpbE9pzr4gRlIEznvQNdUL2tYBchu4HBg"
+          "current_key": "AIzaSyAlAwf1W4DuKy5itwKB-KUP9rh7UMeE7_Y"
         }
       ],
       "services": {

@@ -18,11 +18,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.engzi.Model.User;
 import com.engzi.R;
+import com.engzi.Services.UserServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class SignUpActivity extends AppCompatActivity {
     TextView to_login_button;
@@ -143,7 +152,19 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+                                        FirebaseUser userDocument = task.getResult().getUser();
+                                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                        LocalDate now = LocalDate.now();
+
+                                        UserServices userServices = new UserServices();
+                                        userServices.createUser(userDocument.getUid(),
+                                                userDocument.getDisplayName() != null ? userDocument.getDisplayName() : ("profile" + userDocument.getUid()),
+                                                now.toString());
+
                                         Intent homePageIntent = new Intent(getBaseContext(), HomeActivity.class);
+                                        Bundle userBundle = new Bundle();
+//                                        userBundle.putSerializable("userProfile", userProfile);
+//                                        homePageIntent.putExtras(userBundle);
                                         startActivity(homePageIntent);
                                         finish();
                                     } else {

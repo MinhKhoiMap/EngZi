@@ -9,11 +9,14 @@
     tools:context=".Activities.WelcomeActivity">
 
     <ImageView
+        android:id="@+id/welcome_logo_app"
         android:layout_width="220dp"
         android:layout_height="185dp"
         android:layout_marginTop="98dp"
         android:contentDescription="@string/logo_app"
-        android:src="@drawable/ic_exams" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/idle"
+        android:transitionName="@string/welcome_logo_app_shared" />
 
     <TextView
         android:id="@+id/tv_1"

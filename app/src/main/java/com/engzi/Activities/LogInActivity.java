@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,30 +20,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.engzi.R;
+import com.engzi.Utils.FireBaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
-
     TextView forget_password;
     TextView to_signup_button;
-
     Button toggle_show_password_button;
     AppCompatButton login_btn;
     EditText login_email_edtxt;
     EditText login_password_edtxt;
 
-    FirebaseAuth mFirebaseAuth;
+    FirebaseAuth mFirebaseAuth = FireBaseUtil.mAuth;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
 
         initUI();
         triggerInput();
@@ -110,6 +108,7 @@ public class LogInActivity extends AppCompatActivity {
         to_signup_button.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void logInWithFirebaseAuth() {
         String email = login_email_edtxt.getText().toString().trim();
         String password = login_password_edtxt.getText().toString();
@@ -124,14 +123,14 @@ public class LogInActivity extends AppCompatActivity {
                                 startActivity(homePageIntent);
                                 finish();
                             } else {
-                                Toast.makeText(getApplicationContext(), task.getResult().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                             }
                             login_btn.setEnabled(true);
                             login_btn.setTextColor(getColor(R.color.white));
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "sai format email", Toast.LENGTH_SHORT).show();
+            login_email_edtxt.setError("Invalid Email!");
         }
     }
 
