@@ -2,6 +2,7 @@ package com.engzi.Services;
 
 import android.util.Log;
 
+import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.Utils.FireBaseUtil;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,9 +28,26 @@ public class UserServices {
                 .addOnFailureListener(e -> Log.w("users", "Error writing document", e));
     }
 
-    public void getUserById(String UID) {
+    public void getUserById(String UID, IServiceCallBack callBack) {
         mFCollection.document(UID).get()
-                .addOnSuccessListener(documentSnapshot -> Log.d("users", documentSnapshot.toObject(User.class).getProfileName()))
-                .addOnFailureListener(e -> Log.w("users", "Error get user by ID", e));
+                .addOnSuccessListener(documentSnapshot -> {
+                    callBack.retrieveData(documentSnapshot.toObject(User.class));
+                    callBack.onComplete();
+                })
+                .addOnFailureListener(e -> {
+                    callBack.onFailed(e);
+                });
     }
+
+//    public void updateUserProfile(String UID, IServiceCallBack callBack) {
+//        mFCollection.document(UID).set()
+//    }
+
+//    public void updateRecentlyLesson(String lessionID, String UID) {
+//        mFCollection.document(UID).collection()
+//                .addOnSuccessListener(documentSnapshot -> {
+//                })
+//                .addOnFailureListener(e -> {
+//                });
+//    }
 }

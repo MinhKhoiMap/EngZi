@@ -39,6 +39,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.19")
+    implementation("com.squareup.picasso:picasso:2.71828")
 
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation("com.google.firebase:firebase-auth")

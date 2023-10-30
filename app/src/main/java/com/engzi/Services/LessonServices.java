@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.LessonPractice;
 import com.engzi.Utils.FireBaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,6 +16,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LessonServices {
     final CollectionReference mFCollection;
 
@@ -22,43 +26,40 @@ public class LessonServices {
         mFCollection = FireBaseUtil.mFStore.collection("lessons");
     }
 
-    public void getAllLessonList() {
+    public void getAllLessonList(IServiceCallBack callBack) {
         mFCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("lessons", document.getId() + " " + document.getData().get("topic_name"));
+                    for (DocumentSnapshot document : task.getResult()) {
+//                        Log.d("lessons", document.toObject(LessonPractice.class).getTopic_name());
+                        LessonPractice temp = document.toObject(LessonPractice.class);
+                        temp.setLessonID(document.getId());
+                        callBack.retrieveData(temp);
                     }
+                    callBack.onComplete();
                 } else {
-                    Log.w("lessons", "Error getting documents", task.getException());
+                    callBack.onFailed(task.getException());
                 }
             }
         });
     }
 
-    //    Nghi cach de tra ve LessonPractice object
-    public void getLessonByName(String topicName) {
+    public void getLessonByName(String topicName, IServiceCallBack callBack) {
         mFCollection.whereEqualTo("topic_name", topicName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("lessons", document.getId() + " " + document.getData());
-                        Log.d("lessons object", document.getId() + " " + document.toObject(LessonPractice.class).getList_cards().get(0));
+                    for (DocumentSnapshot document : task.getResult()) {
+//                        Log.d("lessons object", document.getId() + " " + document.toObject(LessonPractice.class).getList_cards().get(0));
+                        callBack.retrieveData(document.toObject(LessonPractice.class));
                     }
+                    callBack.onComplete();
                 } else {
-                    Log.w("lessons", "Error getting documents", task.getException());
+//                    Log.w("lessons", "Error getting documents", task.getException());
+                    callBack.onFailed(task.getException());
                 }
             }
         });
-    }
-
-    public void updateRecentlyLesson(String lessionID) {
-        mFCollection.document(lessionID).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                })
-                .addOnFailureListener(e -> {
-                });
     }
 }

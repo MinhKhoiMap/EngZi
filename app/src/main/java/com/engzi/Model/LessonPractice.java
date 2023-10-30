@@ -1,27 +1,24 @@
 package com.engzi.Model;
 
-import com.google.firebase.firestore.DocumentId;
-
 import java.io.Serializable;
-import java.lang.annotation.Target;
 import java.util.List;
 
 public class LessonPractice implements Serializable {
     String lessonID;
     String thumbnail;
     String topic_name;
-    String description;
+    String lesson_name;
     List<String> list_cards;
-    float completion_percent;
+    float completion_percent = 0;
 
     public LessonPractice() {
     }
 
-    public LessonPractice(String lessonID, String thumbnail, String topic_name, String description, List<String> list_cards, float completion_percent) {
+    public LessonPractice(String lessonID, String thumbnail, String topic_name, String lesson_name, List<String> list_cards, float completion_percent) {
         this.lessonID = lessonID;
         this.thumbnail = thumbnail;
         this.topic_name = topic_name;
-        this.description = description;
+        this.lesson_name = lesson_name;
         this.completion_percent = completion_percent;
         this.list_cards = list_cards;
     }
@@ -50,12 +47,12 @@ public class LessonPractice implements Serializable {
         this.topic_name = topic_name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLesson_name() {
+        return lesson_name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLesson_name(String lesson_name) {
+        this.lesson_name = lesson_name;
     }
 
     public List<String> getList_cards() {
@@ -72,5 +69,17 @@ public class LessonPractice implements Serializable {
 
     public void setCompletion_percent(float completion_percent) {
         this.completion_percent = completion_percent;
+    }
+
+    @Override
+    public String toString() {
+        return "LessonPractice{" +
+                "lessonID='" + lessonID + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", topic_name='" + topic_name + '\'' +
+                ", description='" + lesson_name + '\'' +
+                ", list_cards=" + list_cards +
+                ", completion_percent=" + completion_percent +
+                '}';
     }
 }
