@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.Utils.FireBaseUtil;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 
@@ -91,7 +92,14 @@ public class UserServices {
                 });
     }
 
-//    public void updateUserProfile(String UID, IServiceCallBack callBack) {
-//        mFCollection.document(UID).set()
-//    }
+    public void updateUserProfile(String field, String value, IServiceCallBack callBack) {
+        String UID = FireBaseUtil.mAuth.getCurrentUser().getUid();
+        mFCollection.document(UID).update(field, value)
+                .addOnSuccessListener(documentSnapshot -> {
+                    Log.d("fasdfvv", "updateUserProfile: " + documentSnapshot.toString());
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("update pro5", "updateUserProfile " + field, e);
+                });
+    }
 }
