@@ -20,4 +20,6 @@
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="ready_for_practice_english_today">Ready for practice English today?</string>
     <string name="welcome_logo_app_shared">welcome_logo_app_shared</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,29 +1,31 @@
 package com.engzi.Model;
 
 public class FlashCard {
-    String englishWord;
+    String english_word;
     String vowel;
-    String translateWord;
-    String exampleSentence;
-    String imageUrl;
+    String translate_word;
+    String example_sentence;
+    String cover_image_url;
+    String cardID;
 
     public FlashCard() {
     }
 
-    public FlashCard(String englishWord, String vowel, String translateWord, String exampleSentence, String imageUrl) {
-        this.englishWord = englishWord;
+    public FlashCard(String english_word, String vowel, String translate_word, String example_sentence, String cover_image_url, String cardID) {
+        this.english_word = english_word;
         this.vowel = vowel;
-        this.translateWord = translateWord;
-        this.exampleSentence = exampleSentence;
-        this.imageUrl = imageUrl;
+        this.translate_word = translate_word;
+        this.example_sentence = example_sentence;
+        this.cover_image_url = cover_image_url;
+        this.cardID = cardID;
     }
 
-    public String getEnglishWord() {
-        return englishWord;
+    public String getEnglish_word() {
+        return english_word;
     }
 
-    public void setEnglishWord(String englishWord) {
-        this.englishWord = englishWord;
+    public void setEnglish_word(String english_word) {
+        this.english_word = english_word;
     }
 
     public String getVowel() {
@@ -34,27 +36,35 @@ public class FlashCard {
         this.vowel = vowel;
     }
 
-    public String getTranslateWord() {
-        return translateWord;
+    public String getTranslate_word() {
+        return translate_word;
     }
 
-    public void setTranslateWord(String translateWord) {
-        this.translateWord = translateWord;
+    public void setTranslate_word(String translate_word) {
+        this.translate_word = translate_word;
     }
 
-    public String getExampleSentence() {
-        return exampleSentence;
+    public String getExample_sentence() {
+        return example_sentence;
     }
 
-    public void setExampleSentence(String exampleSentence) {
-        this.exampleSentence = exampleSentence;
+    public void setExample_sentence(String example_sentence) {
+        this.example_sentence = example_sentence;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getCover_image_url() {
+        return cover_image_url;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setCover_image_url(String cover_image_url) {
+        this.cover_image_url = cover_image_url;
+    }
+
+    public String getCardID() {
+        return cardID;
+    }
+
+    public void setCardID(String cardID) {
+        this.cardID = cardID;
     }
 }

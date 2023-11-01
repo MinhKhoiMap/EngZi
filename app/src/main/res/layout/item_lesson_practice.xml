@@ -4,6 +4,7 @@
     android:id="@+id/lesson_card_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:outlineProvider="none"
     android:layout_marginEnd="10dp"
     app:cardBackgroundColor="#0000"
     app:cardCornerRadius="20dp">

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.engzi.Activities.LessonActivity;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
+import com.engzi.Services.UserServices;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -50,7 +51,8 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
             Picasso.get().load(lessonPractice.getThumbnail()).into(holder.lesson_thumb);
 
         holder.lesson_card_item.setOnClickListener(view -> {
-            Toast.makeText(mContext, lessonPractice.getLessonID(), Toast.LENGTH_SHORT).show();
+            UserServices userServices = new UserServices();
+            userServices.updateRecentlyLesson(lessonPractice.getLessonID());
             Intent lessonDetailIntent = new Intent(mContext, LessonActivity.class);
             Bundle lessonBundle = new Bundle();
             lessonBundle.putSerializable("lesson", lessonPractice);

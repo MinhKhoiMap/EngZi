@@ -20,6 +20,7 @@ import com.engzi.Services.LessonServices;
 import com.engzi.Services.UserServices;
 import com.engzi.Utils.FireBaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -29,14 +30,20 @@ import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
     List<LessonPractice> listLesson = new ArrayList<>();
+    List<LessonPractice> recentlyLesson = new ArrayList<>();
     LessonPracticeAdapter lessonListViewAdapter;
     LessonPracticeAdapter recentlyLearnViewAdapter;
     RecyclerView listViewLessonPractice;
     RecyclerView listViewRecentlyLessonPractice;
     BottomNavigationView bottom_main_nav_view;
     TextView hello_home_txt;
+    FloatingActionButton home_button;
 
     User userProfile;
+
+    //    Services
+    UserServices userServices = new UserServices();
+    LessonServices lessonServices = new LessonServices();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +51,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_page);
 
         initUI();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        LessonServices lessonServices = new LessonServices();
-        UserServices userServices = new UserServices();
 
         Intent userProfileIntent = getIntent();
         Toast.makeText(this, Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
@@ -63,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
                 userProfile = (User) userProfileIntent.getSerializableExtra("userProfile");
             }
         } else {
-            userServices.getUserById(FireBaseUtil.mAuth.getCurrentUser().getUid(), new IServiceCallBack() {
+            userServices.getUserById(new IServiceCallBack() {
                 @Override
                 public void retrieveData(Object response) {
                     userProfile = (User) response;
@@ -94,20 +93,10 @@ public class HomeActivity extends AppCompatActivity {
             public void onComplete() {
                 LinearLayoutManager mDailyPracticeLayoutManager = new LinearLayoutManager(getApplicationContext(),
                         LinearLayoutManager.HORIZONTAL, false);
-                LinearLayoutManager mRecentlyLearnLayoutManager = new LinearLayoutManager(getApplicationContext(),
-                        LinearLayoutManager.HORIZONTAL, false);
-
-                Log.d("TAG", listLesson.get(listLesson.size() - 1).getTopic_name());
-
-                recentlyLearnViewAdapter = new LessonPracticeAdapter(HomeActivity.this, listLesson);
                 lessonListViewAdapter = new LessonPracticeAdapter(HomeActivity.this, listLesson);
 
-                /////////////////////////////////////////////////////////////////////////////
                 listViewLessonPractice.setLayoutManager(mDailyPracticeLayoutManager);
-                listViewRecentlyLessonPractice.setLayoutManager(mRecentlyLearnLayoutManager);
-
                 listViewLessonPractice.setAdapter(lessonListViewAdapter);
-                listViewRecentlyLessonPractice.setAdapter(recentlyLearnViewAdapter);
             }
 
             @Override
@@ -116,6 +105,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        home_button.setOnClickListener(view -> {
+            bottom_main_nav_view.getMenu().getItem(2).setChecked(true);
+            Intent homeActivity = new Intent(HomeActivity.this, HomeActivity.class);
+            homeActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            startActivity(homeActivity);
+        });
     }
 
     private void initUI() {
@@ -123,9 +118,40 @@ public class HomeActivity extends AppCompatActivity {
         listViewRecentlyLessonPractice = findViewById(R.id.list_daily_recently_learn);
         bottom_main_nav_view = findViewById(R.id.bottom_main_nav_view);
         hello_home_txt = findViewById(R.id.hello_home_txt);
+        home_button = findViewById(R.id.home_button);
 
         bottom_main_nav_view.setBackground(null);
         bottom_main_nav_view.getMenu().getItem(2).setEnabled(false);
+        bottom_main_nav_view.getMenu().getItem(2).setChecked(true);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        userServices.getRecentlyLesson(new IServiceCallBack() {
+            @Override
+            public void retrieveData(Object response) {
+                Log.d("recently lessonsssss", ((LessonPractice) response).getTopic_name());
+                recentlyLesson.add(0, (LessonPractice) response);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.d("recently lessonsssss", e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                LinearLayoutManager mRecentlyLearnLayoutManager = new LinearLayoutManager(getApplicationContext(),
+                        LinearLayoutManager.HORIZONTAL, false);
+                recentlyLearnViewAdapter = new LessonPracticeAdapter(HomeActivity.this, recentlyLesson);
+
+                listViewRecentlyLessonPractice.setLayoutManager(mRecentlyLearnLayoutManager);
+                listViewRecentlyLessonPractice.setAdapter(recentlyLearnViewAdapter);
+                Log.d("TAG12313", "onComplete:242424563646");
+            }
+        });
     }
 
     @Override

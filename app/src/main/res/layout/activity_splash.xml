@@ -15,19 +15,13 @@
         android:layout_weight="1"
         android:src="@drawable/hi" />
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_weight="2"-->
-<!--        android:fontFamily="@font/bevietnampro_extrabold"-->
-<!--        android:text="@string/app_name"-->
-<!--        android:textSize="50sp" />-->
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:scaleType="fitStart"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
         android:src="@drawable/logo_engzi" />
 
 </LinearLayout>

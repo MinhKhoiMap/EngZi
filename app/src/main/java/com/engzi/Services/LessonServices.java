@@ -26,40 +26,45 @@ public class LessonServices {
         mFCollection = FireBaseUtil.mFStore.collection("lessons");
     }
 
+    //    Read Services
     public void getAllLessonList(IServiceCallBack callBack) {
-        mFCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
+        mFCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
 //                        Log.d("lessons", document.toObject(LessonPractice.class).getTopic_name());
-                        LessonPractice temp = document.toObject(LessonPractice.class);
-                        temp.setLessonID(document.getId());
-                        callBack.retrieveData(temp);
-                    }
-                    callBack.onComplete();
-                } else {
-                    callBack.onFailed(task.getException());
+                    LessonPractice temp = document.toObject(LessonPractice.class);
+                    temp.setLessonID(document.getId());
+                    callBack.retrieveData(temp);
                 }
+                callBack.onComplete();
+            } else {
+                callBack.onFailed(task.getException());
             }
         });
     }
 
     public void getLessonByName(String topicName, IServiceCallBack callBack) {
-        mFCollection.whereEqualTo("topic_name", topicName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
+        mFCollection.whereEqualTo("topic_name", topicName).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
 //                        Log.d("lessons object", document.getId() + " " + document.toObject(LessonPractice.class).getList_cards().get(0));
-                        callBack.retrieveData(document.toObject(LessonPractice.class));
-                    }
-                    callBack.onComplete();
-                } else {
+                            callBack.retrieveData(document.toObject(LessonPractice.class));
+                        }
+                        callBack.onComplete();
+                    } else {
 //                    Log.w("lessons", "Error getting documents", task.getException());
-                    callBack.onFailed(task.getException());
-                }
-            }
-        });
+                        callBack.onFailed(task.getException());
+                    }
+                });
+    }
+
+    public void getLessonByID(String lessonID, IServiceCallBack callBack) {
+        mFCollection.document(lessonID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    callBack.retrieveData(documentSnapshot.toObject(LessonPractice.class));
+                    callBack.onComplete();
+                })
+                .addOnFailureListener(callBack::onFailed);
     }
 }

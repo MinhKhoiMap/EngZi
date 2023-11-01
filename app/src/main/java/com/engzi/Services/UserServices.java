@@ -2,14 +2,18 @@ package com.engzi.Services;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.Utils.FireBaseUtil;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserServices {
     final CollectionReference mFCollection;
@@ -18,7 +22,9 @@ public class UserServices {
         mFCollection = FireBaseUtil.mFStore.collection("users");
     }
 
-    public void createUser(String UID, String profileName, String createdDate) {
+    //    Create Services
+    public void createUser(String profileName, String createdDate) {
+        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
         Map<String, Object> userProfile = new HashMap<>();
         userProfile.put("profileName", profileName);
         userProfile.put("createdDate", createdDate);
@@ -28,26 +34,64 @@ public class UserServices {
                 .addOnFailureListener(e -> Log.w("users", "Error writing document", e));
     }
 
-    public void getUserById(String UID, IServiceCallBack callBack) {
+    //    Read Services
+    public void getUserById(IServiceCallBack callBack) {
+        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
         mFCollection.document(UID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     callBack.retrieveData(documentSnapshot.toObject(User.class));
                     callBack.onComplete();
                 })
+                .addOnFailureListener(callBack::onFailed);
+    }
+
+    public void getRecentlyLesson(IServiceCallBack callBack) {
+        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
+        mFCollection.document(UID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    LessonServices lessonServices = new LessonServices();
+                    List<String> recentlyLessons = (List<String>) documentSnapshot.get("recently_lessons");
+                    assert recentlyLessons != null;
+                    for (String lessonID : recentlyLessons) {
+//                        Log.d("TAGGG", "getRecentlyLesson: " + lessonID);
+                        lessonServices.getLessonByID(lessonID, new IServiceCallBack() {
+                            @Override
+                            public void retrieveData(Object response) {
+                                callBack.retrieveData(response);
+                            }
+
+                            @Override
+                            public void onFailed(Exception e) {
+                                Log.w("get recently lessons by id", "onFailed: ", e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                callBack.onComplete();
+                            }
+                        });
+                    }
+                })
                 .addOnFailureListener(e -> {
-                    callBack.onFailed(e);
+                    Log.w("get recently lessons", "getRecentlyLesson: ", e);
+                });
+    }
+
+    //    Update Services
+    public void updateRecentlyLesson(@NonNull String lessonID) {
+        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
+        Log.d("recently lesson ID", lessonID);
+        mFCollection.document(UID).update("recently_lessons", FieldValue.arrayRemove(lessonID))
+                .addOnSuccessListener(documentSnapshot -> {
+                    Log.d("update recently lesson", "updateRecentlyLesson: complete");
+                    mFCollection.document(UID).update("recently_lessons", FieldValue.arrayUnion(lessonID));
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("update recently lesson", "updateRecentlyLesson: ", e);
                 });
     }
 
 //    public void updateUserProfile(String UID, IServiceCallBack callBack) {
 //        mFCollection.document(UID).set()
-//    }
-
-//    public void updateRecentlyLesson(String lessionID, String UID) {
-//        mFCollection.document(UID).collection()
-//                .addOnSuccessListener(documentSnapshot -> {
-//                })
-//                .addOnFailureListener(e -> {
-//                });
 //    }
 }

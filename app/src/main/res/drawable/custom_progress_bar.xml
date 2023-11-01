@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/progress_bar_bg">
+        <shape android:shape="rectangle">
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+            <corners android:radius="10dp" />
+            <solid android:color="#F5C7A9" />
+        </shape>
+    </item>
+
+    <item android:id="@+id/progress_bar_value">
+        <scale android:scaleWidth="100%">
+            <shape android:shape="rectangle">
+                <corners android:radius="10dp" />
+                <solid android:color="#FFFFFF" />
+            </shape>
+        </scale>
+    </item>
+</layer-list>

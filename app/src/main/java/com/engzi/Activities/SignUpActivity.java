@@ -157,7 +157,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         LocalDate now = LocalDate.now();
 
                                         UserServices userServices = new UserServices();
-                                        userServices.createUser(userDocument.getUid(),
+                                        userServices.createUser(
                                                 userDocument.getDisplayName() != null ? userDocument.getDisplayName() : ("profile" + userDocument.getUid()),
                                                 now.toString());
 

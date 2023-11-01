@@ -1,128 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lesson_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:weightSum="5"
-    tools:context=".Activities.LessonActivity">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/lesson_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_primary"
+        android:translationZ="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back">
 
         <TextView
+            android:id="@+id/lesson_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Topic: Weather"
+            android:text="Topic: "
             android:textSize="16sp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_learn_layout"
+    <LinearLayout
+        android:id="@+id/lesson_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4.6"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:weightSum="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lesson_toolbar"
+        tools:context=".Activities.LessonActivity">
+
 
         <LinearLayout
-            android:id="@+id/card_front"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/card_bg"
-            android:backgroundTint="#F5C7A9"
-            android:backgroundTintMode="src_over"
+            android:id="@+id/main_learn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.6"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingVertical="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:translationZ="9dp">
 
-            <ImageView
-                android:layout_width="252dp"
-                android:layout_height="237dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/test" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:lineHeight="22.5sp"
-                android:maxWidth="246dp"
-                android:text="He likes the clear weather because it makes him feel refreshed."
-                android:textAlignment="center"
-                android:textSize="17sp" />
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/card_front"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="25dp"
+                    android:background="@drawable/card_bg"
+                    android:backgroundTint="#F5C7A9"
+                    android:backgroundTintMode="src_over"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/lesson_image"
+                        android:layout_width="252dp"
+                        android:layout_height="237dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/test" />
+
+                    <TextView
+                        android:id="@+id/lesson_example_english"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="54dp"
+                        android:lineHeight="22.5sp"
+                        android:maxWidth="246dp"
+                        android:textAlignment="center"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/card_back"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:background="@drawable/card_bg"
+                    android:backgroundTint="#F9E0BB"
+                    android:backgroundTintMode="src_over"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/lesson_english_word"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="22.5sp"
+                        android:textAlignment="center"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/lesson_vowel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="54dp"
+                        android:lineHeight="22.5sp"
+                        android:textAlignment="center"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/lesson_translate_word"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="54dp"
+                        android:lineHeight="22.5sp"
+                        android:textAlignment="center"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/lesson_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="295dp"
+                android:layout_height="13dp"
+                android:padding="2dp"
+                android:progressDrawable="@drawable/custom_progress_bar" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/card_back"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:background="@drawable/card_bg"
-            android:backgroundTint="#F9E0BB"
-            android:backgroundTintMode="src_over"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="25dp"
-            android:paddingVertical="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:lineHeight="22.5sp"
-                android:text="clear"
-                android:textAlignment="center"
-                android:textSize="17sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:lineHeight="22.5sp"
-                android:text="/kliə[r]/"
-                android:textAlignment="center"
-                android:textSize="17sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:lineHeight="22.5sp"
-                android:text="trong trẽo, quang đãng"
-                android:textAlignment="center"
-                android:textSize="17sp" />
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_weight=".4">
+        android:translationZ="999dp"
+        android:layout_weight=".4"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_main_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/background_primary"
             app:fabCradleMargin="10dp"
             app:fabCradleRoundedCornerRadius="20dp">
@@ -150,4 +185,19 @@
             tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/pop_up_modal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#8ccc"
+        android:translationZ="99dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lesson_toolbar"
+        app:layout_constraintWidth_max="350dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
