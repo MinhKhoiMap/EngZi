@@ -35,7 +35,7 @@ public class TopicPracticeActivity extends AppCompatActivity {
         topicPracticeRecyclerView = findViewById(R.id.list_topic_practice);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         topicPracticeRecyclerView.setLayoutManager(linearLayoutManager);
-        topicPracticeAdapter.setData(listTopic);
+//        topicPracticeAdapter.setData(listTopic);
         topicPracticeRecyclerView.setAdapter(topicPracticeAdapter);
     }
 }

@@ -12,8 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.engzi.Fragment.HomePageFragment;
+import com.engzi.Fragment.TopicPracticeFragment;
 import com.engzi.Fragment.UserProfileFragment;
 import com.engzi.Interface.IServiceCallBack;
+import com.engzi.Model.TopicPractice;
 import com.engzi.Model.User;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete() {
                     userBundle = new Bundle();
                     userBundle.putSerializable("userProfile", userProfile);
-                    setSectionFragment(home_section, userBundle);
+//                    setSectionFragment(home_section, userBundle);
+                    setSectionFragment(new TopicPracticeFragment(), null);
                 }
             });
         }

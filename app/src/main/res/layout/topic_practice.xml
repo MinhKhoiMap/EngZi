@@ -3,26 +3,26 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="#FFFFFF"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_height="60dp">
-        <ImageView
-            android:id="@+id/icon_back"
-            android:layout_marginLeft="10dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon"
-            />
-        <TextView
-            android:layout_marginLeft="15dp"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Topic practice"/>
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:background="#FFFFFF"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:layout_height="60dp">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/icon_back"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:src="@drawable/icon"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Topic practice"/>-->
+<!--    </LinearLayout>-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_topic_practice"
         android:layout_width="match_parent"

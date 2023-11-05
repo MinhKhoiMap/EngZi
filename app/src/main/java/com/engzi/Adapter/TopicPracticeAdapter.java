@@ -1,43 +1,39 @@
 package com.engzi.Adapter;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.engzi.Model.LessonPractice;
-import com.engzi.Model.TopicPractice;
 import com.engzi.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_TOPIC_UN_COMPLETE = 1;
+    private static final int TYPE_TOPIC_COMPLETE = 2;
+    private List<LessonPractice> mListTopic;
 
-
-    private static int TYPE_TOPIC_UN_COMPLETE = 1;
-    private static int TYPE_TOPIC_COMPLETE = 2;
-    private ArrayList<TopicPractice> mlistTopic;
-
-    public void setData(ArrayList<TopicPractice> listTopic){
-        mlistTopic = listTopic;
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(List<LessonPractice> listTopic) {
+        mListTopic = listTopic;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if(viewType == TYPE_TOPIC_COMPLETE ){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_practice_done,parent,false);
+        if (viewType == TYPE_TOPIC_COMPLETE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_practice_done, parent, false);
             return new TopicPracticeComplete(view);
-        }
-        else if(viewType == TYPE_TOPIC_UN_COMPLETE){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_practice,parent,false);
+        } else if (viewType == TYPE_TOPIC_UN_COMPLETE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_practice, parent, false);
             return new TopicPracticeUnComplete(view);
         }
         return null;
@@ -45,58 +41,55 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TopicPractice topicPractice = mlistTopic.get(position);
-        if(topicPractice == null){
+        LessonPractice topicPractice = mListTopic.get(position);
+        if (topicPractice == null) {
             return;
         }
-        if(TYPE_TOPIC_COMPLETE == holder.getItemViewType()){
+        if (TYPE_TOPIC_COMPLETE == holder.getItemViewType()) {
             TopicPracticeComplete topicPracticeComplete = (TopicPracticeComplete) holder;
-            topicPracticeComplete.tvTitle.setText(topicPractice.getTitle());
-            topicPracticeComplete.tvDescription.setText(topicPractice.getDescription());
-        }
-        else if(TYPE_TOPIC_UN_COMPLETE == holder.getItemViewType()){
+            topicPracticeComplete.lesson_name.setText(topicPractice.getLesson_name());
+            topicPracticeComplete.topic_name.setText(topicPractice.getTopic_name());
+        } else if (TYPE_TOPIC_UN_COMPLETE == holder.getItemViewType()) {
             TopicPracticeUnComplete topicPracticeUnComplete = (TopicPracticeUnComplete) holder;
-            topicPracticeUnComplete.tvTitle.setText(topicPractice.getTitle());
-            topicPracticeUnComplete.tvDescription.setText(topicPractice.getDescription());
+            topicPracticeUnComplete.lesson_name.setText(topicPractice.getLesson_name());
+            topicPracticeUnComplete.topic_name.setText(topicPractice.getTopic_name());
         }
     }
 
     @Override
     public int getItemCount() {
-        if(mlistTopic != null ){
-            return  mlistTopic.size();
+        if (mListTopic != null) {
+            return mListTopic.size();
         }
         return 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        TopicPractice topic = mlistTopic.get(position);
-        if(topic.isCompleted()){
+        LessonPractice topic = mListTopic.get(position);
+        if (topic.getCompletion_percent() == 100) {
             return TYPE_TOPIC_COMPLETE;
         }
         return TYPE_TOPIC_UN_COMPLETE;
     }
 
-    public class TopicPracticeUnComplete extends RecyclerView.ViewHolder{
-        private TextView tvTitle;
-        private TextView tvDescription;
+    public class TopicPracticeUnComplete extends RecyclerView.ViewHolder {
+        private TextView lesson_name, topic_name;
+
         public TopicPracticeUnComplete(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.title_topic_practice);
-            tvDescription = itemView.findViewById(R.id.des_topic_practice);
+            lesson_name = itemView.findViewById(R.id.title_topic_practice);
+            topic_name = itemView.findViewById(R.id.des_topic_practice);
         }
     }
 
-    public class TopicPracticeComplete extends RecyclerView.ViewHolder{
-        private TextView tvTitle;
-        private TextView tvDescription;
+    public class TopicPracticeComplete extends RecyclerView.ViewHolder {
+        private TextView lesson_name, topic_name;
+
         public TopicPracticeComplete(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.title_topic_practice);
-            tvDescription = itemView.findViewById(R.id.des_topic_practice);
+            lesson_name = itemView.findViewById(R.id.title_topic_practice);
+            topic_name = itemView.findViewById(R.id.des_topic_practice);
         }
     }
-
-
 }
