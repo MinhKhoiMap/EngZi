@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment.UserProfileFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bevietnampro_bold"
+            android:includeFontPadding="false"
+            android:text="Profile"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="38dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/avatar_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="9999dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:id="@+id/avatar_img"
+                    android:layout_width="176dp"
+                    android:layout_height="176dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/edit_avatar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/navigate_home_button"
+                android:backgroundTint="@color/white"
+                android:elevation="4dp"
+                android:outlineProvider="paddedBounds"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:scaleX="1.1"
+                android:scaleY="1.1"
+                android:src="@drawable/ic_edit"
+                android:translationZ="9dp"
+                app:layout_anchor="@id/avatar_card"
+                app:layout_anchorGravity="bottom|end" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="295dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp">
+
+            <EditText
+                android:id="@+id/username_edtxt"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edtxt_background"
+                android:fontFamily="@font/bevietnampro_light"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp"
+                android:text="Nene"
+                android:textColor="@color/primary"
+                android:textSize="15sp" />
+
+            <ImageButton
+                android:id="@+id/update_username_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                android:src="@drawable/ic_edit_selector"
+                app:layout_anchor="@id/username_edtxt"
+                app:layout_anchorGravity="center|end" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="295dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp">
+
+            <EditText
+                android:id="@+id/password_edtxt"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:autoText="false"
+                android:background="@drawable/edtxt_background"
+                android:fontFamily="@font/bevietnampro_light"
+                android:includeFontPadding="false"
+                android:inputType="textPassword"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp"
+                android:text="Nene"
+                android:textColor="@color/primary"
+                android:textSize="15sp"
+                tools:ignore="Deprecated" />
+
+            <ImageButton
+                android:id="@+id/update_password_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                android:src="@drawable/ic_edit_selector"
+                app:layout_anchor="@id/password_edtxt"
+                app:layout_anchorGravity="center|end" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <EditText
+            android:id="@+id/email_edtxt"
+            android:layout_width="295dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:autoText="false"
+            android:background="@drawable/edtxt_disable_background"
+            android:drawableEnd="@drawable/ic_edit_disable"
+            android:enabled="false"
+            android:fontFamily="@font/bevietnampro_light"
+            android:includeFontPadding="false"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="8dp"
+            android:text="Nene"
+            android:textColor="#A4A4A4"
+            android:textSize="15sp"
+            tools:ignore="Deprecated" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:fontFamily="@font/bevietnampro_bold"
+            android:text="Connections"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_phay_buc_selector" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_google" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="43dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bevietnampro_light"
+                android:text="Study English with"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:fontFamily="@font/bevietnampro_bold"
+                android:text="EngZi"
+                android:textColor="#B74444"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bevietnampro_light"
+                android:text="since Nov. 01. 2023"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

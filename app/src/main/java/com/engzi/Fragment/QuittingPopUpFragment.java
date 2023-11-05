@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.engzi.Activities.HomeActivity;
+import com.engzi.Activities.MainActivity;
 import com.engzi.R;
 
 public class QuittingPopUpFragment extends Fragment {
@@ -35,7 +35,7 @@ public class QuittingPopUpFragment extends Fragment {
 
         quitting_learn_button.setOnClickListener(view -> {
             quitting_learn_button.setAlpha(0.8f);
-            Intent homeIntent = new Intent(getContext(), HomeActivity.class);
+            Intent homeIntent = new Intent(getContext(), MainActivity.class);
             startActivity(homeIntent);
         });
 

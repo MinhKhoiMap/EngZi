@@ -4,20 +4,23 @@ public class FlashCard {
     String english_word;
     String vowel;
     String translate_word;
-    String example_sentence;
+    String example;
     String cover_image_url;
+    String type;
     String cardID;
 
     public FlashCard() {
     }
 
-    public FlashCard(String english_word, String vowel, String translate_word, String example_sentence, String cover_image_url, String cardID) {
+    public FlashCard(String english_word, String vowel, String translate_word, String example,
+                     String cover_image_url, String cardID, String type) {
         this.english_word = english_word;
         this.vowel = vowel;
         this.translate_word = translate_word;
-        this.example_sentence = example_sentence;
+        this.example = example;
         this.cover_image_url = cover_image_url;
         this.cardID = cardID;
+        this.type = type;
     }
 
     public String getEnglish_word() {
@@ -44,12 +47,12 @@ public class FlashCard {
         this.translate_word = translate_word;
     }
 
-    public String getExample_sentence() {
-        return example_sentence;
+    public String getExample() {
+        return example;
     }
 
-    public void setExample_sentence(String example_sentence) {
-        this.example_sentence = example_sentence;
+    public void setExample(String example) {
+        this.example = example;
     }
 
     public String getCover_image_url() {
@@ -66,5 +69,14 @@ public class FlashCard {
 
     public void setCardID(String cardID) {
         this.cardID = cardID;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -7,15 +7,17 @@ public class User implements Serializable {
     String profileName;
     String email;
     String createdDate;
+    String avatarImg;
 
     public User() {
     }
 
-    public User(String UID, String profileName, String email, String createdDate) {
+    public User(String UID, String profileName, String email, String createdDate, String avatarImg) {
         this.UID = UID;
         this.profileName = profileName;
         this.email = email;
         this.createdDate = createdDate;
+        this.avatarImg = avatarImg;
     }
 
     public String getUID() {
@@ -48,5 +50,13 @@ public class User implements Serializable {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getAvatarImg() {
+        return avatarImg;
+    }
+
+    public void setAvatarImg(String avatarImg) {
+        this.avatarImg = avatarImg;
     }
 }

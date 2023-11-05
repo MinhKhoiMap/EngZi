@@ -4,30 +4,25 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.engzi.Fragment.CardBackFragment;
+import com.engzi.Fragment.CardFrontFragment;
 import com.engzi.Fragment.DoneLessonPopUpFragment;
 import com.engzi.Fragment.QuittingPopUpFragment;
 import com.engzi.Interface.IServiceCallBack;
@@ -35,26 +30,29 @@ import com.engzi.Model.FlashCard;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
 import com.engzi.Services.FlashCardServices;
+import com.engzi.Services.NoteBookServices;
+import com.engzi.Services.UserServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
-
 public class LessonActivity extends AppCompatActivity {
     final int SWIPE_THRESHOLD = 100;
     final int SWIPE_VELOCITY_THRESHOLD = 100;
-    final int CLICK_THREHOLD = 80;
     final List<FlashCard> flashCardList = new ArrayList<>();
 
     //    Variants Utils
     int positionCard;
+    boolean isFlipped = false;
     LessonPractice lessonPractice;
 
+    //    Fragment
+    CardFrontFragment cardFrontFragment, cardPreviousFrontFragment, cardNextFrontFragment;
+    CardBackFragment cardBackFragment, cardPreviousBackFragment, cardNextBackFragment;
+    DoneLessonPopUpFragment DoneLessonPopUpFragment = new DoneLessonPopUpFragment();
+    QuittingPopUpFragment QuittingPopUpFragment = new QuittingPopUpFragment();
 
     /////////////////////////////////////////////////////////////
     Toolbar toolbar;
@@ -65,19 +63,18 @@ public class LessonActivity extends AppCompatActivity {
     ProgressBar lesson_progress_bar;
 
     //    Layout
-    LinearLayout card_front, card_back, main_learn_layout;
-    FrameLayout pop_up_modal;
+    LinearLayout main_learn_layout;
+    FrameLayout pop_up_modal, flash_card;
 
     //    Fragment
-    Fragment DoneLessonPopUpFragment = new DoneLessonPopUpFragment(),
-            QuittingPopUpFragment = new QuittingPopUpFragment();
 
     //    Event Management
     GestureDetector gestureDetector;
 
     //    Services
     FlashCardServices flashCardServices = new FlashCardServices();
-
+    NoteBookServices noteBookServices = new NoteBookServices();
+    UserServices userServices = new UserServices();
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -98,16 +95,10 @@ public class LessonActivity extends AppCompatActivity {
         initUI();
 
         ((TextView) toolbar.findViewById(R.id.lesson_title)).setText("Topic: " + lessonPractice.getTopic_name());
+//        Toast.makeText(this, String.valueOf(lessonPractice.getCompletion_percent()), Toast.LENGTH_SHORT).show();
 
         toolbar.setNavigationOnClickListener(view -> {
-            handleBackPress();
-        });
-
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                handleBackPress();
-            }
+            onBackPressed();
         });
 
         main_learn_layout.setOnTouchListener((view, motionEvent) -> {
@@ -115,53 +106,33 @@ public class LessonActivity extends AppCompatActivity {
             return true;
         });
 
-        card_front.setOnTouchListener((view, motionEvent) -> {
-            long duration = motionEvent.getEventTime() - motionEvent.getDownTime();
-
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP && duration < CLICK_THREHOLD) {
-                Toast.makeText(this, "click event", Toast.LENGTH_SHORT).show();
-                handleFlipCard(card_front, card_back);
-            } else {
-                gestureDetector.onTouchEvent(motionEvent);
-            }
-            return true;
-        });
-
-        card_back.setOnTouchListener((view, motionEvent) -> {
-            long duration = motionEvent.getEventTime() - motionEvent.getDownTime();
-
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP && duration < CLICK_THREHOLD) {
-                Toast.makeText(this, "click event", Toast.LENGTH_SHORT).show();
-                handleFlipCard(card_back, card_front);
-            } else {
-                gestureDetector.onTouchEvent(motionEvent);
-            }
+        flash_card.setOnTouchListener((view, motionView) -> {
+            gestureDetector.onTouchEvent(motionView);
             return true;
         });
 
         home_button.setOnClickListener(view -> {
             bottom_main_nav_view.getMenu().getItem(2).setChecked(true);
-            Intent homeActivity = new Intent(LessonActivity.this, HomeActivity.class);
+            Intent homeActivity = new Intent(LessonActivity.this, MainActivity.class);
             homeActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(homeActivity);
         });
     }
 
-    private void handleBackPress() {
-        if (positionCard < flashCardList.size()) {
+    @Override
+    public void onBackPressed() {
+        userServices.updateRecentlyLesson(lessonPractice.getLessonID(), positionCard);
+        if (positionCard < flashCardList.size() - 1) {
             pop_up_modal.setVisibility(View.VISIBLE);
-            setFragment(QuittingPopUpFragment);
+            setPopUpFragment(QuittingPopUpFragment);
         } else {
-            onBackPressed();
-            finish();
+            super.onBackPressed();
         }
     }
 
     private void initUI() {
         toolbar = findViewById(R.id.lesson_toolbar);
         bottom_main_nav_view = findViewById(R.id.bottom_main_nav_view);
-        card_front = findViewById(R.id.card_front);
-        card_back = findViewById(R.id.card_back);
         main_learn_layout = findViewById(R.id.main_learn_layout);
         lesson_image = findViewById(R.id.lesson_image);
         lesson_example_english = findViewById(R.id.lesson_example_english);
@@ -171,6 +142,7 @@ public class LessonActivity extends AppCompatActivity {
         lesson_progress_bar = findViewById(R.id.lesson_progress_bar);
         pop_up_modal = findViewById(R.id.pop_up_modal);
         home_button = findViewById(R.id.home_button);
+        flash_card = findViewById(R.id.flash_card);
 
         bottom_main_nav_view.setBackground(null);
         bottom_main_nav_view.getMenu().getItem(2).setEnabled(false);
@@ -179,7 +151,7 @@ public class LessonActivity extends AppCompatActivity {
 
     private void getListCard() {
         for (String cardID : lessonPractice.getList_cards()) {
-            Log.d("Card ID", cardID);
+//            Log.d("Card ID", cardID);
             flashCardServices.getCardByID(cardID, new IServiceCallBack() {
                 @Override
                 public void retrieveData(Object response) {
@@ -188,47 +160,65 @@ public class LessonActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailed(Exception e) {
-
                 }
 
                 @Override
                 public void onComplete() {
+                    lesson_progress_bar.setMax(flashCardList.size() - 1);
+
                     positionCard = 0;
                     FlashCard currentCard = flashCardList.get(positionCard);
-                    Picasso.get().load(currentCard.getCover_image_url()).into(lesson_image);
-                    lesson_example_english.setText(currentCard.getEnglish_word());
-                    lesson_english_word.setText(currentCard.getEnglish_word());
-                    lesson_vowel.setText(currentCard.getVowel());
-                    lesson_translate_word.setText(currentCard.getTranslate_word());
+
+                    cardFrontFragment = new CardFrontFragment(currentCard.getCover_image_url(), currentCard.getExample());
+                    cardBackFragment = new CardBackFragment(currentCard.getEnglish_word(), currentCard.getVowel(), currentCard.getTranslate_word());
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(flash_card.getId(), cardFrontFragment)
+                            .commit();
                 }
             });
         }
     }
 
     private void handleChangeCard() {
-        Picasso.get().load(flashCardList.get(positionCard).getCover_image_url()).into(lesson_image);
-        lesson_example_english.setText(flashCardList.get(positionCard).getEnglish_word());
-        lesson_english_word.setText(flashCardList.get(positionCard).getEnglish_word());
-        lesson_vowel.setText(flashCardList.get(positionCard).getVowel());
-        lesson_translate_word.setText(flashCardList.get(positionCard).getTranslate_word());
+        FlashCard nextCard = flashCardList.get(positionCard);
+        cardFrontFragment = new CardFrontFragment(nextCard.getCover_image_url(), nextCard.getExample());
+        cardBackFragment = new CardBackFragment(nextCard.getEnglish_word(), nextCard.getVowel(), nextCard.getTranslate_word());
+
+//        Log.d("Card", "onFling: " + positionCard + nextCard.getCover_image_url());
+
+        getSupportFragmentManager()
+                .popBackStack();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(flash_card.getId(), cardFrontFragment)
+                .commit();
     }
 
 
-    private void handleFlipCard(LinearLayout card_front, LinearLayout card_back) {
-        float scale = getApplicationContext().getResources().getDisplayMetrics().density;
-        card_front.setCameraDistance(8000 * scale);
-        card_back.setCameraDistance(8000 * scale);
-
-        AnimatorSet front_anim = (AnimatorSet) AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.front_card_animator);
-        AnimatorSet back_anim = (AnimatorSet) AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.back_card_animator);
-
-        front_anim.setTarget(card_front);
-        back_anim.setTarget(card_back);
-        front_anim.start();
-        back_anim.start();
+    //    TypeFlip:  1 == is showing, 2 == show now
+    private void handleFlipCard(int typeFlip) {
+//        Toast.makeText(this, String.valueOf(typeFlip), Toast.LENGTH_SHORT).show();
+        if (typeFlip == 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            R.animator.card_flip_right_enter, //enter
+                            R.animator.card_flip_right_exit, //exit
+                            R.animator.card_flip_left_enter,
+                            R.animator.card_flip_left_exit
+                    )
+                    .replace(flash_card.getId(), cardBackFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
-    private void setFragment(Fragment fragment) {
+    private void setPopUpFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(pop_up_modal.getId(), fragment);
         fragmentTransaction.commit();
@@ -242,13 +232,30 @@ public class LessonActivity extends AppCompatActivity {
             if (e1.getX() - e2.getX() > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (positionCard < flashCardList.size() - 1) {
                     positionCard += 1;
+                    noteBookServices.updateNoteBookOrderByLevel(1, flashCardList.get(positionCard).getCardID(),
+                            new IServiceCallBack() {
+                                @Override
+                                public void retrieveData(Object response) {
+
+                                }
+
+                                @Override
+                                public void onFailed(Exception e) {
+                                    Log.w("update process", "onFailed: ", e);
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
                     handleChangeCard();
-                    lesson_progress_bar.setProgress((positionCard + 1));
-                    lesson_progress_bar.setMax(flashCardList.size());
+                    handleFlipCard(1);
+                    lesson_progress_bar.setProgress(positionCard);
                 } else {
-                    lesson_progress_bar.setProgress((positionCard + 1));
                     pop_up_modal.setVisibility(View.VISIBLE);
-                    setFragment(DoneLessonPopUpFragment);
+                    userServices.updateRecentlyLesson(lessonPractice.getLessonID(), positionCard);
+                    setPopUpFragment(DoneLessonPopUpFragment);
                 }
             }
 //            FLing from left to right
@@ -256,11 +263,25 @@ public class LessonActivity extends AppCompatActivity {
                 if (positionCard > 0) {
                     positionCard -= 1;
                     handleChangeCard();
+                    handleFlipCard(1);
                     lesson_progress_bar.setProgress((positionCard + 1));
-                    lesson_progress_bar.setMin(1);
+                    lesson_progress_bar.setMin(0);
                 }
             }
+            isFlipped = false;
             return super.onFling(e1, e2, velocityX, velocityY);
+        }
+
+        @Override
+        public boolean onSingleTapUp(@NonNull MotionEvent e) {
+//            Toast.makeText(LessonActivity.this, "single tap up" + isFlipped, Toast.LENGTH_SHORT).show();
+            if (isFlipped) {
+                handleFlipCard(1);
+            } else {
+                handleFlipCard(2);
+            }
+            isFlipped = !isFlipped;
+            return super.onSingleTapUp(e);
         }
     }
 }

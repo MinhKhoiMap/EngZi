@@ -2,18 +2,16 @@ package com.engzi.Services;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.FlashCard;
-import com.engzi.Utils.FireBaseUtil;
+import com.engzi.Utils.FireBaseUtils;
 import com.google.firebase.firestore.CollectionReference;
 
 public class FlashCardServices {
     final CollectionReference mFCollection;
 
     public FlashCardServices() {
-        mFCollection = FireBaseUtil.mFStore.collection("flash_cards");
+        mFCollection = FireBaseUtils.mFStore.collection("flash_cards");
     }
 
     public void getCardByID(String cardID, IServiceCallBack callBack) {

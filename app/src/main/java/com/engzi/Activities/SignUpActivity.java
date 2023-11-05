@@ -161,7 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 userDocument.getDisplayName() != null ? userDocument.getDisplayName() : ("profile" + userDocument.getUid()),
                                                 now.toString());
 
-                                        Intent homePageIntent = new Intent(getBaseContext(), HomeActivity.class);
+                                        Intent homePageIntent = new Intent(getBaseContext(), MainActivity.class);
                                         Bundle userBundle = new Bundle();
 //                                        userBundle.putSerializable("userProfile", userProfile);
 //                                        homePageIntent.putExtras(userBundle);

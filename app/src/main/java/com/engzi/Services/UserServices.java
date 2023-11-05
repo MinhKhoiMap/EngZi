@@ -5,14 +5,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.engzi.Interface.IServiceCallBack;
+import com.engzi.Model.LessonPractice;
 import com.engzi.Model.User;
-import com.engzi.Utils.FireBaseUtil;
+import com.engzi.Utils.DateToTimestamp;
+import com.engzi.Utils.FireBaseUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -20,12 +23,12 @@ public class UserServices {
     final CollectionReference mFCollection;
 
     public UserServices() {
-        mFCollection = FireBaseUtil.mFStore.collection("users");
+        mFCollection = FireBaseUtils.mFStore.collection("users");
     }
 
     //    Create Services
     public void createUser(String profileName, String createdDate) {
-        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
+        String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         Map<String, Object> userProfile = new HashMap<>();
         userProfile.put("profileName", profileName);
         userProfile.put("createdDate", createdDate);
@@ -37,33 +40,42 @@ public class UserServices {
 
     //    Read Services
     public void getUserById(IServiceCallBack callBack) {
-        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
+        String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         mFCollection.document(UID).get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    callBack.retrieveData(documentSnapshot.toObject(User.class));
+                    User user = documentSnapshot.toObject(User.class);
+                    user.setEmail(Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getEmail());
+                    callBack.retrieveData(user);
                     callBack.onComplete();
                 })
                 .addOnFailureListener(callBack::onFailed);
     }
 
     public void getRecentlyLesson(IServiceCallBack callBack) {
-        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
-        mFCollection.document(UID).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    LessonServices lessonServices = new LessonServices();
-                    List<String> recentlyLessons = (List<String>) documentSnapshot.get("recently_lessons");
-                    assert recentlyLessons != null;
-                    for (String lessonID : recentlyLessons) {
-//                        Log.d("TAGGG", "getRecentlyLesson: " + lessonID);
-                        lessonServices.getLessonByID(lessonID, new IServiceCallBack() {
+        String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
+        LessonServices lessonServices = new LessonServices();
+        mFCollection
+                .document(UID)
+                .collection("recently")
+                .orderBy("last_access", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Log.d("TAGHEHEHEE", documentSnapshot.getData().toString() + documentSnapshot.getId());
+                        lessonServices.getLessonByID(documentSnapshot.getId(), new IServiceCallBack() {
                             @Override
                             public void retrieveData(Object response) {
-                                callBack.retrieveData(response);
+                                LessonPractice lessonPractice = (LessonPractice) response;
+                                lessonPractice.setLessonID(documentSnapshot.getId());
+                                double completion_percent = (double) documentSnapshot.get("completion_percent");
+                                lessonPractice.setCompletion_percent((float) completion_percent);
+
+                                callBack.retrieveData(lessonPractice);
                             }
 
                             @Override
                             public void onFailed(Exception e) {
-                                Log.w("get recently lessons by id", "onFailed: ", e);
+                                callBack.onFailed(e);
                             }
 
                             @Override
@@ -73,19 +85,24 @@ public class UserServices {
                         });
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Log.w("get recently lessons", "getRecentlyLesson: ", e);
-                });
+                .addOnFailureListener(callBack::onFailed);
     }
 
     //    Update Services
-    public void updateRecentlyLesson(@NonNull String lessonID) {
-        String UID = Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid();
-        Log.d("recently lesson ID", lessonID);
-        mFCollection.document(UID).update("recently_lessons", FieldValue.arrayRemove(lessonID))
-                .addOnSuccessListener(documentSnapshot -> {
+    public void updateRecentlyLesson(@NonNull String lessonID, float percentComplete) {
+        Log.d("Recently", "updateRecentlyLesson:" + lessonID);
+        String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
+        Map<String, Object> recentlyLesson = new HashMap<>();
+        recentlyLesson.put("completion_percent", percentComplete);
+        recentlyLesson.put("last_access", DateToTimestamp.dateToTimestamp(new Date()));
+
+        mFCollection
+                .document(UID)
+                .collection("recently")
+                .document(lessonID)
+                .set(recentlyLesson)
+                .addOnSuccessListener(unused -> {
                     Log.d("update recently lesson", "updateRecentlyLesson: complete");
-                    mFCollection.document(UID).update("recently_lessons", FieldValue.arrayUnion(lessonID));
                 })
                 .addOnFailureListener(e -> {
                     Log.w("update recently lesson", "updateRecentlyLesson: ", e);
@@ -93,13 +110,21 @@ public class UserServices {
     }
 
     public void updateUserProfile(String field, String value, IServiceCallBack callBack) {
-        String UID = FireBaseUtil.mAuth.getCurrentUser().getUid();
+        String UID = FireBaseUtils.mAuth.getCurrentUser().getUid();
         mFCollection.document(UID).update(field, value)
-                .addOnSuccessListener(documentSnapshot -> {
-                    Log.d("fasdfvv", "updateUserProfile: " + documentSnapshot.toString());
-                })
+                .addOnSuccessListener(unused -> callBack.onComplete())
                 .addOnFailureListener(e -> {
                     Log.w("update pro5", "updateUserProfile " + field, e);
+                    callBack.onFailed(e);
+                });
+    }
+
+    public void updateUserPassword(String newPass, IServiceCallBack callBack) {
+        Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).updatePassword(newPass)
+                .addOnSuccessListener(unused -> callBack.onComplete())
+                .addOnFailureListener(e -> {
+                    Log.w("update pro5", "updatePass ", e);
+                    callBack.onFailed(e);
                 });
     }
 }

@@ -1,29 +1,16 @@
 package com.engzi.Services;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.LessonPractice;
-import com.engzi.Utils.FireBaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.engzi.Utils.FireBaseUtils;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LessonServices {
     final CollectionReference mFCollection;
 
     public LessonServices() {
-        mFCollection = FireBaseUtil.mFStore.collection("lessons");
+        mFCollection = FireBaseUtils.mFStore.collection("lessons");
     }
 
     //    Read Services
@@ -62,7 +49,10 @@ public class LessonServices {
     public void getLessonByID(String lessonID, IServiceCallBack callBack) {
         mFCollection.document(lessonID).get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    callBack.retrieveData(documentSnapshot.toObject(LessonPractice.class));
+                    LessonPractice lessonPractice = documentSnapshot.toObject(LessonPractice.class);
+                    assert lessonPractice != null;
+                    lessonPractice.setLessonID(lessonID);
+                    callBack.retrieveData(lessonPractice);
                     callBack.onComplete();
                 })
                 .addOnFailureListener(callBack::onFailed);

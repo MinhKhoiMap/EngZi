@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_front"
+    android:layout_width="300dp"
+    android:layout_height="380dp"
+    android:background="@drawable/card_bg"
+    android:backgroundTint="#F5C7A9"
+    android:backgroundTintMode="src_over"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingVertical="25dp"
+    tools:context=".Fragment.CardFrontFragment">
+
+    <ImageView
+        android:id="@+id/lesson_image"
+        android:layout_width="252dp"
+        android:layout_height="237dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/lesson_example_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:lineHeight="22.5sp"
+        android:maxWidth="246dp"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+</LinearLayout>

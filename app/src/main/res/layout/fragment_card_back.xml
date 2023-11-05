@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_back"
+    android:layout_width="300dp"
+    android:layout_height="380dp"
+    android:background="@drawable/card_bg"
+    android:backgroundTint="#F9E0BB"
+    android:backgroundTintMode="src_over"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="25dp"
+    tools:context=".Fragment.CardBackFragment">
+
+    <TextView
+        android:id="@+id/lesson_english_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineHeight="22.5sp"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/lesson_vowel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:lineHeight="22.5sp"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/lesson_translate_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:lineHeight="22.5sp"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+</LinearLayout>

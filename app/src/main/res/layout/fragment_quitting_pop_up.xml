@@ -1,83 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/pop_up_frame_style"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="25dp"
-    android:translationZ="9dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bevietnampro_extrabold"
-        android:text="Pleaseeee!"
-        android:textSize="30sp"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/bevietnampro_light"
-        android:text="Please don't leave!!!"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        tools:ignore="HardcodedText" />
-
-    <ImageView
-        android:layout_width="142dp"
-        android:layout_height="126dp"
-        android:layout_marginVertical="10dp"
-        android:scaleType="fitEnd"
-        android:src="@drawable/crying_quitting" />
+    android:background="@drawable/pop_up_frame_style">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/pop_up_frame_style"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:translationZ="9dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/continue_learn_button"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/exit_bg_button"
-            android:elevation="0dp"
-            android:fontFamily="@font/bevietnampro_medium"
-            android:includeFontPadding="false"
-            android:paddingHorizontal="5dp"
-            android:layout_marginEnd="10dp"
-            android:text="Exit"
-            android:textAllCaps="false"
-            android:textColor="#E50808"
-            android:textSize="17sp"
+            android:fontFamily="@font/bevietnampro_extrabold"
+            android:text="Pleaseeee!"
+            android:textSize="30sp"
             tools:ignore="HardcodedText" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/quitting_learn_button"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:background="@drawable/no_background_button"
-            android:backgroundTint="#FFCF86"
-            android:elevation="0dp"
-            android:fontFamily="@font/bevietnampro_medium"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:padding="0dp"
-
-            android:text="Continue"
-            android:textAllCaps="false"
-            android:textColor="@color/primary"
-            android:textSize="17sp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/bevietnampro_light"
+            android:text="Please don't leave!!!"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:layout_width="142dp"
+            android:layout_height="126dp"
+            android:layout_marginVertical="10dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/crying_quitting" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/quitting_learn_button"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/exit_bg_button_selector"
+                android:fontFamily="@font/bevietnampro_medium"
+                android:includeFontPadding="false"
+                android:outlineProvider="none"
+                android:paddingHorizontal="5dp"
+                android:text="Exit"
+                android:textAllCaps="false"
+                android:textColor="#E50808"
+                android:textSize="17sp"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/continue_learn_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/no_background_button"
+                android:backgroundTint="#FFCF86"
+                android:fontFamily="@font/bevietnampro_medium"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:outlineProvider="none"
+                android:padding="0dp"
+                android:text="Continue"
+                android:textAllCaps="false"
+                android:textColor="@color/primary"
+                android:textSize="17sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

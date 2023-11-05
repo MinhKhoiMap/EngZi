@@ -7,7 +7,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.engzi.R;
-import com.engzi.Utils.FireBaseUtil;
+import com.engzi.Utils.FireBaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,7 +33,7 @@ public class LogInActivity extends AppCompatActivity {
     EditText login_email_edtxt;
     EditText login_password_edtxt;
 
-    FirebaseAuth mFirebaseAuth = FireBaseUtil.mAuth;
+    FirebaseAuth mFirebaseAuth = FireBaseUtils.mAuth;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -115,19 +114,16 @@ public class LogInActivity extends AppCompatActivity {
 
         if (email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
             mFirebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Intent homePageIntent = new Intent(getBaseContext(), HomeActivity.class);
-                                startActivity(homePageIntent);
-                                finish();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                            }
-                            login_btn.setEnabled(true);
-                            login_btn.setTextColor(getColor(R.color.white));
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Intent homePageIntent = new Intent(getBaseContext(), MainActivity.class);
+                            startActivity(homePageIntent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
+                        login_btn.setEnabled(true);
+                        login_btn.setTextColor(getColor(R.color.white));
                     });
         } else {
             login_email_edtxt.setError("Invalid Email!");
