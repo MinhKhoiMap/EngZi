@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
 
         Intent userProfileIntent = getIntent();
 //        Toast.makeText(this, Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
@@ -118,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSectionFragment(Fragment fragment, Bundle bundle) {
         fragment.setArguments(bundle);
+//        Log.d("fragment", fragment.getClass().getSimpleName());
+        String targetFragment = fragment.getClass().getSimpleName().toLowerCase();
+        switch (targetFragment) {
+            case "topicpracticefragment":
+                bottom_main_nav_view.getMenu().getItem(0).setChecked(true);
+                break;
+            case "userprofilefragment":
+                bottom_main_nav_view.getMenu().getItem(4).setChecked(true);
+        }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(section_layout.getId(), fragment);
         fragmentTransaction.commit();

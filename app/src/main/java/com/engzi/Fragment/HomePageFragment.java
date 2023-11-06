@@ -3,6 +3,8 @@ package com.engzi.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.engzi.Activities.MainActivity;
 import com.engzi.Adapter.LessonPracticeAdapter;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.FlashCard;
@@ -31,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 
 public class HomePageFragment extends Fragment {
+    MainActivity mMainActivity;
     User userProfile;
     List<LessonPractice> listLesson;
     List<LessonPractice> recentlyLesson;
@@ -41,11 +46,14 @@ public class HomePageFragment extends Fragment {
 
     //    View
     View groupView;
-    RecyclerView listViewLessonPractice;
-    RecyclerView listViewRecentlyLessonPractice;
+    RecyclerView listViewLessonPractice,
+            listViewRecentlyLessonPractice, recommend_lesson;
     BottomNavigationView bottom_main_nav_view;
     TextView hello_home_txt, remind_english, remind_vowel, remind_translate, remind_example;
+    CardView remind_layout;
     FloatingActionButton home_button;
+    ConstraintLayout begin_learning_layout, recently_layout;
+    LinearLayout lesson_practice_button, notebooks_button, exam_button;
 
     //    Services
     UserServices userServices = new UserServices();
@@ -55,6 +63,7 @@ public class HomePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mMainActivity = (MainActivity) getActivity();
         groupView = inflater.inflate(R.layout.fragment_home_page, container, false);
         listLesson = new ArrayList<>();
         recentlyLesson = new ArrayList<>();
@@ -85,13 +94,18 @@ public class HomePageFragment extends Fragment {
 
                 @Override
                 public void onComplete() {
-                    Random random = new Random();
-                    int positionRand = random.nextInt(flashCards.size());
-                    FlashCard card = flashCards.get(positionRand);
-                    remind_english.setText(card.getEnglish_word());
-                    remind_vowel.setText(card.getVowel());
-                    remind_translate.setText(card.getTranslate_word());
-                    remind_example.setText("Ex: " + card.getExample());
+                    if (flashCards.size() > 0) {
+                        remind_layout.setVisibility(View.VISIBLE);
+                        Random random = new Random();
+                        int positionRand = random.nextInt(flashCards.size());
+                        FlashCard card = flashCards.get(positionRand);
+                        remind_english.setText(card.getEnglish_word());
+                        remind_vowel.setText(card.getVowel());
+                        remind_translate.setText(card.getTranslate_word());
+                        remind_example.setText("Ex: " + card.getExample());
+                    } else {
+                        remind_layout.setVisibility(View.INVISIBLE);
+                    }
                 }
             });
         }
@@ -107,10 +121,22 @@ public class HomePageFragment extends Fragment {
             public void onComplete() {
                 LinearLayoutManager mDailyPracticeLayoutManager = new LinearLayoutManager(getActivity(),
                         LinearLayoutManager.HORIZONTAL, false);
+                LinearLayoutManager mStartingLearningLayoutManager = new LinearLayoutManager(getActivity(),
+                        LinearLayoutManager.HORIZONTAL, false);
                 lessonListViewAdapter = new LessonPracticeAdapter(getActivity(), listLesson);
 
                 listViewLessonPractice.setLayoutManager(mDailyPracticeLayoutManager);
                 listViewLessonPractice.setAdapter(lessonListViewAdapter);
+
+                ///////////////////////////////////////////
+                if (listLesson.size() > 0) {
+                    List<LessonPractice> startingLearning = new ArrayList<>();
+                    startingLearning.add(listLesson.get(0));
+                    LessonPracticeAdapter startingLearningAdapter = new LessonPracticeAdapter(getActivity(), startingLearning);
+
+                    recommend_lesson.setLayoutManager(mStartingLearningLayoutManager);
+                    recommend_lesson.setAdapter(startingLearningAdapter);
+                }
             }
 
             @Override
@@ -136,16 +162,26 @@ public class HomePageFragment extends Fragment {
                 Log.d("TAG12313", "onComplete: " + recentlyLesson.size());
                 if (recentlyLesson.size() < 1) {
                     Toast.makeText(getActivity(), "Chua co hoc gi het", Toast.LENGTH_SHORT).show();
+                    listViewRecentlyLessonPractice.setVisibility(View.INVISIBLE);
+                    begin_learning_layout.setVisibility(View.VISIBLE);
+                    ((ViewGroup) container.findViewById(R.id.main_layout)).removeView(remind_layout);
                 } else {
+                    listViewRecentlyLessonPractice.setVisibility(View.VISIBLE);
+                    remind_layout.setVisibility(View.VISIBLE);
+                    recently_layout.removeView(begin_learning_layout);
+
                     LinearLayoutManager mRecentlyLearnLayoutManager = new LinearLayoutManager(getActivity(),
                             LinearLayoutManager.HORIZONTAL, false);
                     recentlyLearnViewAdapter = new LessonPracticeAdapter(getActivity(), recentlyLesson);
 
                     listViewRecentlyLessonPractice.setLayoutManager(mRecentlyLearnLayoutManager);
                     listViewRecentlyLessonPractice.setAdapter(recentlyLearnViewAdapter);
-
                 }
             }
+        });
+
+        lesson_practice_button.setOnClickListener(view -> {
+            mMainActivity.setSectionFragment(new TopicPracticeFragment(), null);
         });
 
         return groupView;
@@ -173,5 +209,12 @@ public class HomePageFragment extends Fragment {
         remind_vowel = groupView.findViewById(R.id.remind_vowel);
         remind_translate = groupView.findViewById(R.id.remind_translate);
         remind_example = groupView.findViewById(R.id.remind_example);
+        recommend_lesson = groupView.findViewById(R.id.recommend_lesson);
+        remind_layout = groupView.findViewById(R.id.remind_layout);
+        begin_learning_layout = groupView.findViewById(R.id.begin_learning_layout);
+        lesson_practice_button = groupView.findViewById(R.id.lesson_practice_button);
+        notebooks_button = groupView.findViewById(R.id.notebooks_button);
+        exam_button = groupView.findViewById(R.id.card_avatar);
+        recently_layout = groupView.findViewById(R.id.recently_layout);
     }
 }

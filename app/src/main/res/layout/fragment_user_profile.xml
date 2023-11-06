@@ -160,33 +160,42 @@
             android:textSize="15sp"
             tools:ignore="Deprecated" />
 
-        <TextView
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="23dp"-->
+        <!--            android:fontFamily="@font/bevietnampro_bold"-->
+        <!--            android:text="Connections"-->
+        <!--            android:textSize="16sp"-->
+        <!--            tools:ignore="HardcodedText" />-->
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="23dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:layout_width="46dp"-->
+        <!--                android:layout_height="46dp"-->
+        <!--                android:background="@drawable/ic_phay_buc_selector" />-->
+
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
+        <!--                android:layout_width="47dp"-->
+        <!--                android:layout_height="47dp"-->
+        <!--                android:layout_marginStart="16dp"-->
+        <!--                android:background="@drawable/ic_google" />-->
+        <!--        </LinearLayout>-->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logout_action_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="23dp"
-            android:fontFamily="@font/bevietnampro_bold"
-            android:text="Connections"
-            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/no_bg_button_hover"
+            android:text="Đăng xuất"
             tools:ignore="HardcodedText" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="23dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:background="@drawable/ic_phay_buc_selector" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="47dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/ic_google" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

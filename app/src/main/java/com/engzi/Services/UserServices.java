@@ -11,30 +11,47 @@ import com.engzi.Utils.DateToTimestamp;
 import com.engzi.Utils.FireBaseUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class UserServices {
     final CollectionReference mFCollection;
+    final String avatarDefault = "https://firebasestorage.googleapis.com/v0/b/test-865b1.appspot.com/o/images%2Favatar%2Ficon.png?alt=media&token=e17b12fe-b7eb-4f35-b846-8b3d2f13da23";
 
     public UserServices() {
         mFCollection = FireBaseUtils.mFStore.collection("users");
     }
 
     //    Create Services
-    public void createUser(String profileName, String createdDate) {
+    public void createUser(String profileName, String createdDate, IServiceCallBack callBack) {
         String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         Map<String, Object> userProfile = new HashMap<>();
         userProfile.put("profileName", profileName);
         userProfile.put("createdDate", createdDate);
+        userProfile.put("avatarImg", avatarDefault);
+
+        Map<String, List<String>> userNoteBook = new HashMap<>();
+        userNoteBook.put("level_1", new ArrayList<>());
+        userNoteBook.put("level_2", new ArrayList<>());
+        userNoteBook.put("level_3", new ArrayList<>());
 
         mFCollection.document(UID).set(userProfile)
-                .addOnSuccessListener(aVoid -> Log.d("users", "DocumentSnapshot successfully written!"))
+                .addOnSuccessListener(unused -> {
+                    NoteBookServices noteBookServices = new NoteBookServices();
+                    noteBookServices.mFCollection.document(UID).set(userNoteBook)
+                            .addOnSuccessListener(unused1 -> {
+                                Log.d("TAG", "createUser: ");
+                                callBack.onComplete();
+                            });
+                })
                 .addOnFailureListener(e -> Log.w("users", "Error writing document", e));
     }
 

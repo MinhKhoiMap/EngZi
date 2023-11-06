@@ -19,6 +19,8 @@ import com.engzi.Services.LessonServices;
 import com.engzi.Services.UserServices;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TopicPracticeFragment extends Fragment {
@@ -65,6 +67,7 @@ public class TopicPracticeFragment extends Fragment {
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                         topicPracticeAdapter = new TopicPracticeAdapter();
                         topicPracticeRecyclerView.setLayoutManager(linearLayoutManager);
+                        listTopic.sort((t1, t2) -> t1.getLesson_name().compareToIgnoreCase(t2.getLesson_name()));
                         topicPracticeAdapter.setData(listTopic);
                         topicPracticeRecyclerView.setAdapter(topicPracticeAdapter);
                     }

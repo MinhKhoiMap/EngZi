@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
@@ -45,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     //   Utils
     FirebaseAuth mFirebaseAuth;
+    User userProfile;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -148,28 +150,37 @@ public class SignUpActivity extends AppCompatActivity {
             if (!password.contains(" ") || !confirmPassword.contains(" ")) {
                 if (password.equals(confirmPassword)) {
                     mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        FirebaseUser userDocument = task.getResult().getUser();
-                                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                                        LocalDate now = LocalDate.now();
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser userDocument = task.getResult().getUser();
+                                    LocalDate now = LocalDate.now();
 
-                                        UserServices userServices = new UserServices();
-                                        userServices.createUser(
-                                                userDocument.getDisplayName() != null ? userDocument.getDisplayName() : ("profile" + userDocument.getUid()),
-                                                now.toString());
+                                    UserServices userServices = new UserServices();
+                                    userServices.createUser(
+                                            userDocument.getDisplayName() != null ? userDocument.getDisplayName() : ("profile"),
+                                            now.toString(), new IServiceCallBack() {
+                                                @Override
+                                                public void retrieveData(Object response) {
 
-                                        Intent homePageIntent = new Intent(getBaseContext(), MainActivity.class);
-                                        Bundle userBundle = new Bundle();
+                                                }
+
+                                                @Override
+                                                public void onFailed(Exception e) {
+
+                                                }
+
+                                                @Override
+                                                public void onComplete() {
+                                                    Intent homePageIntent = new Intent(getBaseContext(), MainActivity.class);
+                                                    Bundle userBundle = new Bundle();
 //                                        userBundle.putSerializable("userProfile", userProfile);
 //                                        homePageIntent.putExtras(userBundle);
-                                        startActivity(homePageIntent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), task.getResult().toString(), Toast.LENGTH_SHORT).show();
-                                    }
+                                                    startActivity(homePageIntent);
+                                                    finish();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(getApplicationContext(), task.getResult().toString(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {

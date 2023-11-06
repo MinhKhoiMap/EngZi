@@ -2,8 +2,10 @@ package com.engzi.Fragment;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,10 +17,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.engzi.Activities.MainActivity;
+import com.engzi.Activities.WelcomeActivity;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
+import com.engzi.Utils.FireBaseUtils;
 
 public class UserProfileFragment extends Fragment {
     MainActivity mMainActivity;
@@ -28,6 +32,7 @@ public class UserProfileFragment extends Fragment {
     //    View
     View groupView;
     ImageButton edit_avatar_button, update_username_button, update_password_button;
+    AppCompatButton logout_action_btn;
     ImageView avatar_img;
     EditText username_edtxt, password_edtxt, email_edtxt;
 
@@ -102,6 +107,13 @@ public class UserProfileFragment extends Fragment {
             });
         });
 
+        logout_action_btn.setOnClickListener(view -> {
+            FireBaseUtils.mAuth.signOut();
+            Intent welcomeIntent = new Intent(getContext(), WelcomeActivity.class);
+            getActivity().finish();
+            startActivity(welcomeIntent);
+        });
+
         return groupView;
     }
 
@@ -113,5 +125,6 @@ public class UserProfileFragment extends Fragment {
         email_edtxt = groupView.findViewById(R.id.email_edtxt);
         update_username_button = groupView.findViewById(R.id.update_username_button);
         update_password_button = groupView.findViewById(R.id.update_password_button);
+        logout_action_btn = groupView.findViewById(R.id.logout_action_btn);
     }
 }

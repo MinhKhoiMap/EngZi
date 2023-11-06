@@ -15,19 +15,20 @@ public class LessonServices {
 
     //    Read Services
     public void getAllLessonList(IServiceCallBack callBack) {
-        mFCollection.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
+        mFCollection.orderBy("lesson_name").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
 //                        Log.d("lessons", document.toObject(LessonPractice.class).getTopic_name());
-                    LessonPractice temp = document.toObject(LessonPractice.class);
-                    temp.setLessonID(document.getId());
-                    callBack.retrieveData(temp);
-                }
-                callBack.onComplete();
-            } else {
-                callBack.onFailed(task.getException());
-            }
-        });
+                            LessonPractice temp = document.toObject(LessonPractice.class);
+                            temp.setLessonID(document.getId());
+                            callBack.retrieveData(temp);
+                        }
+                        callBack.onComplete();
+                    } else {
+                        callBack.onFailed(task.getException());
+                    }
+                });
     }
 
     public void getLessonByName(String topicName, IServiceCallBack callBack) {

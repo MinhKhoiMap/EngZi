@@ -25,25 +25,28 @@ public class NoteBookServices {
                 .addOnSuccessListener(documentSnapshot -> {
                     List<String> notebookCardID = (List<String>) documentSnapshot.get("level_" + level);
                     FlashCardServices flashCardServices = new FlashCardServices();
-                    assert notebookCardID != null;
-                    for (String cardID : notebookCardID) {
-                        flashCardServices.getCardByID(cardID, new IServiceCallBack() {
-                            @Override
-                            public void retrieveData(Object response) {
+                    if (notebookCardID != null) {
+                        for (String cardID : notebookCardID) {
+                            flashCardServices.getCardByID(cardID, new IServiceCallBack() {
+                                @Override
+                                public void retrieveData(Object response) {
 //                                Log.d("notebook", ((FlashCard) response).getEnglish_word());
-                                callBack.retrieveData(response);
-                            }
+                                    callBack.retrieveData(response);
+                                }
 
-                            @Override
-                            public void onFailed(Exception e) {
-                                callBack.onFailed(e);
-                            }
+                                @Override
+                                public void onFailed(Exception e) {
+                                    callBack.onFailed(e);
+                                }
 
-                            @Override
-                            public void onComplete() {
-                                callBack.onComplete();
-                            }
-                        });
+                                @Override
+                                public void onComplete() {
+                                    callBack.onComplete();
+                                }
+                            });
+                        }
+                    } else {
+                        callBack.onComplete();
                     }
                 })
                 .addOnFailureListener(callBack::onFailed);
