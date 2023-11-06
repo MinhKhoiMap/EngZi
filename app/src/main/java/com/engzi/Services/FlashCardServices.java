@@ -18,8 +18,8 @@ public class FlashCardServices {
         mFCollection.document(cardID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     FlashCard card = documentSnapshot.toObject(FlashCard.class);
+                    assert card != null;
                     card.setCardID(cardID);
-                    Log.d("111", "getCardByID: " + card.getVowel());
                     callBack.retrieveData(card);
                     callBack.onComplete();
                 })

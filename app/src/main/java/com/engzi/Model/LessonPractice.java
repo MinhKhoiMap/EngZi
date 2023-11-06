@@ -9,17 +9,18 @@ public class LessonPractice implements Serializable {
     String topic_name;
     String lesson_name;
     List<String> list_cards;
-    float completion_percent = 0;
+    int last_position_card = -1;
 
     public LessonPractice() {
     }
 
-    public LessonPractice(String lessonID, String thumbnail, String topic_name, String lesson_name, List<String> list_cards, float completion_percent) {
+    public LessonPractice(String lessonID, String thumbnail, String topic_name, String lesson_name,
+                          List<String> list_cards, int last_position_card) {
         this.lessonID = lessonID;
         this.thumbnail = thumbnail;
         this.topic_name = topic_name;
         this.lesson_name = lesson_name;
-        this.completion_percent = completion_percent;
+        this.last_position_card = last_position_card;
         this.list_cards = list_cards;
     }
 
@@ -63,12 +64,19 @@ public class LessonPractice implements Serializable {
         this.list_cards = list_cards;
     }
 
-    public float getCompletion_percent() {
-        return completion_percent;
+    public int getLast_position_card() {
+        return last_position_card;
     }
 
-    public void setCompletion_percent(float completion_percent) {
-        this.completion_percent = completion_percent;
+    public void setLast_position_card(int last_position_card) {
+        this.last_position_card = last_position_card;
+    }
+
+    public float getCompletion_percent() {
+        if (list_cards != null) {
+            return last_position_card / (float) list_cards.size();
+        }
+        return 0;
     }
 
     @Override
@@ -79,7 +87,8 @@ public class LessonPractice implements Serializable {
                 ", topic_name='" + topic_name + '\'' +
                 ", description='" + lesson_name + '\'' +
                 ", list_cards=" + list_cards +
-                ", completion_percent=" + completion_percent +
+                ", last_position_card=" + last_position_card +
+                ", percent=" + getCompletion_percent() +
                 '}';
     }
 }

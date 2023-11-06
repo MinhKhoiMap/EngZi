@@ -15,7 +15,6 @@ import com.engzi.Fragment.HomePageFragment;
 import com.engzi.Fragment.TopicPracticeFragment;
 import com.engzi.Fragment.UserProfileFragment;
 import com.engzi.Interface.IServiceCallBack;
-import com.engzi.Model.TopicPractice;
 import com.engzi.Model.User;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton home_button;
 
     //    Fragment
-    Fragment home_section, user_profile_section;
+    Fragment home_section, user_profile_section, topic_practice_section;
 
     //    Services
     UserServices userServices = new UserServices();
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(this, Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
 
         user_profile_section = new UserProfileFragment();
+        topic_practice_section = new TopicPracticeFragment();
         home_section = new HomePageFragment();
 
         if (userProfileIntent.getSerializableExtra("userProfile") != null) {
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete() {
                     userBundle = new Bundle();
                     userBundle.putSerializable("userProfile", userProfile);
-//                    setSectionFragment(home_section, userBundle);
-                    setSectionFragment(new TopicPracticeFragment(), null);
+                    setSectionFragment(home_section, userBundle);
+//                    setSectionFragment(new TopicPracticeFragment(), null);
                 }
             });
         }
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 setSectionFragment(user_profile_section, userBundle);
                 return true;
             } else if (itemID == R.id.daily_practice) {
+                setSectionFragment(topic_practice_section, null);
                 return true;
             } else if (itemID == R.id.notebook) {
                 return true;

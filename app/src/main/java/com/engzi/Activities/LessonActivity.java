@@ -166,7 +166,9 @@ public class LessonActivity extends AppCompatActivity {
                 public void onComplete() {
                     lesson_progress_bar.setMax(flashCardList.size() - 1);
 
-                    positionCard = 0;
+                    positionCard = lessonPractice.getLast_position_card();
+                    if (positionCard >= flashCardList.size())
+                        positionCard = 0;
                     FlashCard currentCard = flashCardList.get(positionCard);
 
                     cardFrontFragment = new CardFrontFragment(currentCard.getCover_image_url(), currentCard.getExample());
@@ -254,7 +256,7 @@ public class LessonActivity extends AppCompatActivity {
                     lesson_progress_bar.setProgress(positionCard);
                 } else {
                     pop_up_modal.setVisibility(View.VISIBLE);
-                    userServices.updateRecentlyLesson(lessonPractice.getLessonID(), positionCard);
+                    userServices.updateRecentlyLesson(lessonPractice.getLessonID(), positionCard + 1);
                     setPopUpFragment(DoneLessonPopUpFragment);
                 }
             }

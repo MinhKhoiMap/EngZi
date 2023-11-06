@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.engzi.Adapter.TopicPracticeAdapter;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.LessonPractice;
-import com.engzi.Model.TopicPractice;
 import com.engzi.R;
 import com.engzi.Services.LessonServices;
+import com.engzi.Services.UserServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,7 @@ public class TopicPracticeFragment extends Fragment {
 
     //    Services
     LessonServices lessonServices = new LessonServices();
+    UserServices userServices = new UserServices();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +42,33 @@ public class TopicPracticeFragment extends Fragment {
         lessonServices.getAllLessonList(new IServiceCallBack() {
             @Override
             public void retrieveData(Object response) {
-                listTopic.add((LessonPractice) response);
+                LessonPractice data = (LessonPractice) response;
+                userServices.getLastPositionCardLesson(data.getLessonID(), new IServiceCallBack() {
+                    @Override
+                    public void retrieveData(Object response) {
+                        if (response != null) {
+//                            Log.d("data", data.getTopic_name());
+//                            Log.d("lesson list", String.valueOf(response));
+                            long res = (long) response;
+                            data.setLast_position_card((int) res);
+                        }
+                        listTopic.add(data);
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                        topicPracticeAdapter = new TopicPracticeAdapter();
+                        topicPracticeRecyclerView.setLayoutManager(linearLayoutManager);
+                        topicPracticeAdapter.setData(listTopic);
+                        topicPracticeRecyclerView.setAdapter(topicPracticeAdapter);
+                    }
+                });
             }
 
             @Override
@@ -51,11 +78,7 @@ public class TopicPracticeFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                topicPracticeAdapter = new TopicPracticeAdapter();
-                topicPracticeRecyclerView.setLayoutManager(linearLayoutManager);
-                topicPracticeAdapter.setData(listTopic);
-                topicPracticeRecyclerView.setAdapter(topicPracticeAdapter);
+
             }
         });
 

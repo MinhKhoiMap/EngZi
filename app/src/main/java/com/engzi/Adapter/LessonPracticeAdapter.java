@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,10 +59,18 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
                     .transition(withCrossFade())
                     .into(holder.lesson_thumb);
 
+        if (lessonPractice.getLast_position_card() >= 0 && lessonPractice.getList_cards() != null) {
+            holder.lesson_progress_bar.setProgress(lessonPractice.getLast_position_card());
+            holder.lesson_progress_bar.setMax(lessonPractice.getList_cards().size());
+        } else {
+            holder.lesson_progress_bar.setVisibility(ViewGroup.INVISIBLE);
+        }
+
+
         holder.lesson_card_item.setOnClickListener(view -> {
 //            Log.d("lesson item", "lesson item on click" + lessonPractice.getLessonID());
             UserServices userServices = new UserServices();
-            userServices.updateRecentlyLesson(lessonPractice.getLessonID(), lessonPractice.getCompletion_percent());
+            userServices.updateRecentlyLesson(lessonPractice.getLessonID(), lessonPractice.getLast_position_card());
             Intent lessonDetailIntent = new Intent(mContext, LessonActivity.class);
             Bundle lessonBundle = new Bundle();
             lessonBundle.putSerializable("lesson", lessonPractice);
@@ -80,6 +89,7 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
         TextView tvTopic, tvName;
         CardView lesson_card_item;
         ImageView lesson_thumb;
+        ProgressBar lesson_progress_bar;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -88,6 +98,7 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
             tvTopic = itemView.findViewById(R.id.des_lesson_practice);
             lesson_thumb = itemView.findViewById(R.id.lesson_thumb);
             lesson_card_item = itemView.findViewById(R.id.lesson_card_item);
+            lesson_progress_bar = itemView.findViewById(R.id.lesson_progress_bar);
 
             this.setIsRecyclable(false);
         }

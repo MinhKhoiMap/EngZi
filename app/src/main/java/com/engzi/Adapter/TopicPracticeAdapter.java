@@ -1,6 +1,7 @@
 package com.engzi.Adapter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -67,14 +67,14 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemViewType(int position) {
         LessonPractice topic = mListTopic.get(position);
-        if (topic.getCompletion_percent() == 100) {
+        if (topic.getCompletion_percent() >= 1) {
             return TYPE_TOPIC_COMPLETE;
         }
         return TYPE_TOPIC_UN_COMPLETE;
     }
 
-    public class TopicPracticeUnComplete extends RecyclerView.ViewHolder {
-        private TextView lesson_name, topic_name;
+    public static class TopicPracticeUnComplete extends RecyclerView.ViewHolder {
+        private final TextView lesson_name, topic_name;
 
         public TopicPracticeUnComplete(@NonNull View itemView) {
             super(itemView);
@@ -83,8 +83,8 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public class TopicPracticeComplete extends RecyclerView.ViewHolder {
-        private TextView lesson_name, topic_name;
+    public static class TopicPracticeComplete extends RecyclerView.ViewHolder {
+        private final TextView lesson_name, topic_name;
 
         public TopicPracticeComplete(@NonNull View itemView) {
             super(itemView);

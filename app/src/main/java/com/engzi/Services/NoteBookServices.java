@@ -30,7 +30,7 @@ public class NoteBookServices {
                         flashCardServices.getCardByID(cardID, new IServiceCallBack() {
                             @Override
                             public void retrieveData(Object response) {
-                                Log.d("notebook", ((FlashCard) response).getEnglish_word());
+//                                Log.d("notebook", ((FlashCard) response).getEnglish_word());
                                 callBack.retrieveData(response);
                             }
 

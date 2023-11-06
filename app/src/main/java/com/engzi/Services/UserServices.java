@@ -51,7 +51,21 @@ public class UserServices {
                 .addOnFailureListener(callBack::onFailed);
     }
 
-    public void getRecentlyLesson(IServiceCallBack callBack) {
+    public void getLastPositionCardLesson(String lessonID, IServiceCallBack callBack) {
+        String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
+        mFCollection.document(UID)
+                .collection("recently")
+                .document(lessonID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot != null)
+                        callBack.retrieveData(documentSnapshot.get("last_position_card"));
+                    callBack.onComplete();
+                })
+                .addOnFailureListener(callBack::onFailed);
+    }
+
+    public void getRecentlyLessonList(IServiceCallBack callBack) {
         String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         LessonServices lessonServices = new LessonServices();
         mFCollection
@@ -60,40 +74,44 @@ public class UserServices {
                 .orderBy("last_access", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Log.d("TAGHEHEHEE", documentSnapshot.getData().toString() + documentSnapshot.getId());
-                        lessonServices.getLessonByID(documentSnapshot.getId(), new IServiceCallBack() {
-                            @Override
-                            public void retrieveData(Object response) {
-                                LessonPractice lessonPractice = (LessonPractice) response;
-                                lessonPractice.setLessonID(documentSnapshot.getId());
-                                double completion_percent = (double) documentSnapshot.get("completion_percent");
-                                lessonPractice.setCompletion_percent((float) completion_percent);
+                    if (queryDocumentSnapshots.size() > 0) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Log.d("TAGHEHEHEE", documentSnapshot.getData().toString() + documentSnapshot.getId());
+                            lessonServices.getLessonByID(documentSnapshot.getId(), new IServiceCallBack() {
+                                @Override
+                                public void retrieveData(Object response) {
+                                    LessonPractice lessonPractice = (LessonPractice) response;
+                                    lessonPractice.setLessonID(documentSnapshot.getId());
+                                    long last_position_card = (long) documentSnapshot.get("last_position_card");
+                                    lessonPractice.setLast_position_card((int) last_position_card);
 
-                                callBack.retrieveData(lessonPractice);
-                            }
+                                    callBack.retrieveData(lessonPractice);
+                                }
 
-                            @Override
-                            public void onFailed(Exception e) {
-                                callBack.onFailed(e);
-                            }
+                                @Override
+                                public void onFailed(Exception e) {
+                                    callBack.onFailed(e);
+                                }
 
-                            @Override
-                            public void onComplete() {
-                                callBack.onComplete();
-                            }
-                        });
+                                @Override
+                                public void onComplete() {
+                                    callBack.onComplete();
+                                }
+                            });
+                        }
+                    } else {
+                        callBack.onComplete();
                     }
                 })
                 .addOnFailureListener(callBack::onFailed);
     }
 
     //    Update Services
-    public void updateRecentlyLesson(@NonNull String lessonID, float percentComplete) {
+    public void updateRecentlyLesson(@NonNull String lessonID, int percentComplete) {
         Log.d("Recently", "updateRecentlyLesson:" + lessonID);
         String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         Map<String, Object> recentlyLesson = new HashMap<>();
-        recentlyLesson.put("completion_percent", percentComplete);
+        recentlyLesson.put("last_position_card", percentComplete);
         recentlyLesson.put("last_access", DateToTimestamp.dateToTimestamp(new Date()));
 
         mFCollection

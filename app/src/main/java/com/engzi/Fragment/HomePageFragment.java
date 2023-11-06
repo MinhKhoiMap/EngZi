@@ -119,7 +119,7 @@ public class HomePageFragment extends Fragment {
             }
         });
 
-        userServices.getRecentlyLesson(new IServiceCallBack() {
+        userServices.getRecentlyLessonList(new IServiceCallBack() {
             @Override
             public void retrieveData(Object response) {
                 Log.d("recently lessonsssss", ((LessonPractice) response).getTopic_name());
