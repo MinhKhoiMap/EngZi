@@ -223,4 +223,8 @@ public class HomePageFragment extends Fragment {
         exam_button = groupView.findViewById(R.id.exam_button);
         recently_layout = groupView.findViewById(R.id.recently_layout);
     }
+
+    public Bundle getListTopicBundle() {
+        return listTopicBundle;
+    }
 }

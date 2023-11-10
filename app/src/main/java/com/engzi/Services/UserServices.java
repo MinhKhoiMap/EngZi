@@ -40,8 +40,6 @@ public class UserServices {
 
         Map<String, List<String>> userNoteBook = new HashMap<>();
         userNoteBook.put("level_1", new ArrayList<>());
-        userNoteBook.put("level_2", new ArrayList<>());
-        userNoteBook.put("level_3", new ArrayList<>());
 
         mFCollection.document(UID).set(userProfile)
                 .addOnSuccessListener(unused -> {

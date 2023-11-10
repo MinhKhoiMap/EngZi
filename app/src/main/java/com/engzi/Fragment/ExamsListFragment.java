@@ -44,7 +44,6 @@ public class ExamsListFragment extends Fragment {
 
         listExamTopic = (List<LessonPractice>) getArguments().get("lesson_practice");
 
-        Toast.makeText(mMainActivity, String.valueOf(listExamTopic.size()), Toast.LENGTH_SHORT).show();
 
         initUI();
 

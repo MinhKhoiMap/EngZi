@@ -14,6 +14,12 @@
         android:theme="@style/Base.Theme.EngZi"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ViewResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ExamActivity"
             android:exported="false" />
         <activity

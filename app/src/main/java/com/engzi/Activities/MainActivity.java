@@ -13,12 +13,14 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.engzi.Fragment.BookMarkFragment;
+import com.engzi.Fragment.ExamsListFragment;
 import com.engzi.Fragment.HomePageFragment;
 import com.engzi.Fragment.TopicListFragment;
 import com.engzi.Fragment.UserProfileFragment;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.User;
 import com.engzi.R;
+import com.engzi.Services.ExamsServices;
 import com.engzi.Services.UserServices;
 import com.engzi.Utils.FireBaseUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -47,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent userProfileIntent = getIntent();
-        
-//        Toast.makeText(this, Objects.requireNonNull(FireBaseUtil.mAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
 
         user_profile_section = new UserProfileFragment();
         topic_practice_section = new TopicListFragment();
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         initUI();
 
         home_button.setOnClickListener(view -> {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             setSectionFragment(home_section, userBundle, false);
             bottom_main_nav_view.getMenu().getItem(2).setChecked(true);
         });
@@ -102,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemID == R.id.notebook) {
                 setSectionFragment(bookmark_section, null, false);
                 return true;
-            } else if (itemID == R.id.notification) {
+            } else if (itemID == R.id.exam) {
+                setSectionFragment(new ExamsListFragment(), ((HomePageFragment) home_section).getListTopicBundle(), false);
                 return true;
             }
             return false;

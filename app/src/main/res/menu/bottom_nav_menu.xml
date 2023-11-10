@@ -18,9 +18,9 @@
         android:title="" />
 
     <item
-        android:id="@+id/notification"
-        android:icon="@drawable/ic_noti_bottom_nav_selector"
-        android:title="Notification"
+        android:id="@+id/exam"
+        android:icon="@drawable/ic_exam_bottom_nav_selector"
+        android:title="Exam"
         tools:ignore="HardcodedText" />
 
     <item

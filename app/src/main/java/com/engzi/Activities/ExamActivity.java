@@ -27,12 +27,14 @@ import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.FlashCard;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
+import com.engzi.Services.ExamsServices;
 import com.engzi.Services.FlashCardServices;
 import com.engzi.Utils.FillBlankQuestion;
 import com.engzi.Utils.MultipleChoiceQuestion;
 import com.engzi.Utils.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -61,6 +63,7 @@ public class ExamActivity extends AppCompatActivity {
 
     //    Services
     FlashCardServices flashCardServices = new FlashCardServices();
+    ExamsServices examsServices = new ExamsServices();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -90,7 +93,13 @@ public class ExamActivity extends AppCompatActivity {
                 handleNextQuestion();
                 next_navigate.setText("Submit");
             } else {
-                Toast.makeText(this, "Submit", Toast.LENGTH_SHORT).show();
+
+                Intent resultIntent = new Intent(this, ResultActivity.class);
+                Bundle questionListBundle = new Bundle();
+                questionListBundle.putSerializable("question_list", (Serializable) questionList);
+                resultIntent.putExtras(questionListBundle);
+                startActivity(resultIntent);
+                finish();
             }
         });
 
@@ -98,6 +107,10 @@ public class ExamActivity extends AppCompatActivity {
             if (currentPosition + 1 > 1) {
                 handlePreviousQuestion();
             }
+        });
+
+        exam_toolbar.setNavigationOnClickListener(view -> {
+            onBackPressed();
         });
     }
 

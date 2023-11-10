@@ -60,7 +60,13 @@ public class BookMarkFragment extends Fragment {
             @Override
             public void onComplete() {
                 LinearLayoutManager mLinearLayoutManager =
-                        new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
+                            @Override
+                            public boolean canScrollVertically() {
+                                return false;
+                            }
+                        };
+                
                 ListWordAdapter listWordAdapter = new ListWordAdapter(bookmarkList, (position) -> {
                     View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_layout, null);
                     TextView english_word = popupView.findViewById(R.id.english_word),

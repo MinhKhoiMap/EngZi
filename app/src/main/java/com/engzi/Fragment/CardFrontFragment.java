@@ -52,7 +52,7 @@ public class CardFrontFragment extends Fragment {
         super.onViewCreated(currentView, savedInstanceState);
 
         Glide.with(getActivity()).load(cover_image_url)
-                .placeholder(R.drawable.crying_quitting)
+                .placeholder(R.drawable.loading)
                 .transition(withCrossFade())
                 .into(lesson_image);
         lesson_example_english.setText(example_english);

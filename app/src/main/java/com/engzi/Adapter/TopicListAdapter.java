@@ -55,7 +55,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (topicPractice.getThumbnail() != null)
                 Glide.with(holder.itemView.getContext()).load(topicPractice.getThumbnail())
-                        .placeholder(R.drawable.hold_sign)
+                        .placeholder(R.drawable.loading)
                         .transition(withCrossFade())
                         .into(topicPracticeComplete.lesson_thumb);
         } else if (TYPE_TOPIC_UN_COMPLETE == holder.getItemViewType()) {
@@ -65,7 +65,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (topicPractice.getThumbnail() != null)
                 Glide.with(holder.itemView.getContext()).load(topicPractice.getThumbnail())
-                        .placeholder(R.drawable.hold_sign)
+                        .placeholder(R.drawable.loading)
                         .transition(withCrossFade())
                         .into(topicPracticeUnComplete.lesson_thumb);
         }

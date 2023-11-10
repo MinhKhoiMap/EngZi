@@ -21,14 +21,19 @@ import com.engzi.Activities.ExamActivity;
 import com.engzi.Activities.MainActivity;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
+import com.engzi.Services.ExamsServices;
 
 import java.util.List;
+import java.util.Random;
 
 public class ExamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_HAVE_RESULT = 1;
-    private static final int TYPE_DONT_HAVE_RESULT = 2;
+    private static final int TYPE_HAVE_RESULT = 0;
+    private static final int TYPE_DONT_HAVE_RESULT = 1;
     private List<LessonPractice> mListTopic;
     private Context mContext;
+
+    //    Services
+    ExamsServices examsServices = new ExamsServices();
 
     public ExamsAdapter(List<LessonPractice> listTopic) {
         this.mListTopic = listTopic;
@@ -37,10 +42,16 @@ public class ExamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exam_have_result, parent, false);
         mContext = parent.getContext();
 
-        return new ExamsListViewHolder(view);
+        View itemView;
+        if (viewType == TYPE_HAVE_RESULT) {
+            itemView = LayoutInflater.from(mContext).inflate(R.layout.item_exam_have_result, parent, false);
+        } else {
+            itemView = LayoutInflater.from(mContext).inflate(R.layout.item_exam_dont_have_result, parent, false);
+        }
+
+        return new ExamsListViewHolder(itemView);
     }
 
     @Override
@@ -80,7 +91,8 @@ public class ExamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
         LessonPractice topic = mListTopic.get(position);
-        return TYPE_DONT_HAVE_RESULT;
+
+        return new Random().nextInt(2);
     }
 
     public static class ExamsListHaveResultViewHolder extends RecyclerView.ViewHolder {

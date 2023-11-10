@@ -24,7 +24,6 @@ import com.engzi.Activities.LessonActivity;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
 //            Picasso.get().load(lessonPractice.getThumbnail()).into(holder.lesson_thumb);
         if (lessonPractice.getThumbnail() != null)
             Glide.with(mContext).load(lessonPractice.getThumbnail())
-                    .placeholder(R.drawable.hold_sign)
+                    .placeholder(R.drawable.loading)
                     .transition(withCrossFade())
                     .into(holder.lesson_thumb);
 
