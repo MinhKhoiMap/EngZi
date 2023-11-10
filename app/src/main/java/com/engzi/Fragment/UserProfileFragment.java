@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.engzi.Activities.MainActivity;
@@ -23,6 +25,7 @@ import com.engzi.Model.User;
 import com.engzi.R;
 import com.engzi.Services.UserServices;
 import com.engzi.Utils.FireBaseUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class UserProfileFragment extends Fragment {
     MainActivity mMainActivity;
@@ -35,6 +38,7 @@ public class UserProfileFragment extends Fragment {
     AppCompatButton logout_action_btn;
     ImageView avatar_img;
     EditText username_edtxt, password_edtxt, email_edtxt;
+    Toolbar profile_toolbar;
 
     //    Services
     UserServices userServices = new UserServices();
@@ -64,7 +68,7 @@ public class UserProfileFragment extends Fragment {
         edit_avatar_button.setOnClickListener(view -> {
             Bundle avatarBundle = new Bundle();
             avatarBundle.putString("avatar_url", avatar_url);
-            mMainActivity.setSectionFragment(new AvatarFragment(), avatarBundle);
+            mMainActivity.setSectionFragment(new AvatarFragment(), avatarBundle, true);
         });
 
         update_username_button.setOnClickListener(view -> {
@@ -114,6 +118,12 @@ public class UserProfileFragment extends Fragment {
             startActivity(welcomeIntent);
         });
 
+        profile_toolbar.setNavigationOnClickListener(view -> {
+            ((BottomNavigationView) mMainActivity.findViewById(R.id.bottom_main_nav_view))
+                    .getMenu().getItem(2).setChecked(true);
+            mMainActivity.setSectionFragment(new HomePageFragment(), mMainActivity.getUserBundle(), false);
+        });
+
         return groupView;
     }
 
@@ -126,5 +136,6 @@ public class UserProfileFragment extends Fragment {
         update_username_button = groupView.findViewById(R.id.update_username_button);
         update_password_button = groupView.findViewById(R.id.update_password_button);
         logout_action_btn = groupView.findViewById(R.id.logout_action_btn);
+        profile_toolbar = groupView.findViewById(R.id.profile_toolbar);
     }
 }

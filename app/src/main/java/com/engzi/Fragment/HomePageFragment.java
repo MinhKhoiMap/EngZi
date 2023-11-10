@@ -27,9 +27,9 @@ import com.engzi.R;
 import com.engzi.Services.LessonServices;
 import com.engzi.Services.NoteBookServices;
 import com.engzi.Services.UserServices;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,18 +37,16 @@ import java.util.Random;
 public class HomePageFragment extends Fragment {
     MainActivity mMainActivity;
     User userProfile;
-    List<LessonPractice> listLesson;
-    List<LessonPractice> recentlyLesson;
+    List<LessonPractice> listLesson, recentlyLesson;
     List<FlashCard> flashCards;
     //    Adapter
-    LessonPracticeAdapter lessonListViewAdapter;
-    LessonPracticeAdapter recentlyLearnViewAdapter;
+    LessonPracticeAdapter lessonListViewAdapter, recentlyLearnViewAdapter;
+    Bundle listTopicBundle;
 
     //    View
     View groupView;
     RecyclerView listViewLessonPractice,
             listViewRecentlyLessonPractice, recommend_lesson;
-    BottomNavigationView bottom_main_nav_view;
     TextView hello_home_txt, remind_english, remind_vowel, remind_translate, remind_example;
     CardView remind_layout;
     FloatingActionButton home_button;
@@ -128,6 +126,11 @@ public class HomePageFragment extends Fragment {
                 listViewLessonPractice.setLayoutManager(mDailyPracticeLayoutManager);
                 listViewLessonPractice.setAdapter(lessonListViewAdapter);
 
+
+                listTopicBundle = new Bundle();
+                listTopicBundle.putSerializable("lesson_practice", (Serializable) listLesson);
+
+
                 ///////////////////////////////////////////
                 if (listLesson.size() > 0) {
                     List<LessonPractice> startingLearning = new ArrayList<>();
@@ -159,7 +162,7 @@ public class HomePageFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                Log.d("TAG12313", "onComplete: " + recentlyLesson.size());
+//                Log.d("TAG12313", "onComplete: " + recentlyLesson.size());
                 if (recentlyLesson.size() < 1) {
                     Toast.makeText(getActivity(), "Chua co hoc gi het", Toast.LENGTH_SHORT).show();
                     listViewRecentlyLessonPractice.setVisibility(View.INVISIBLE);
@@ -181,7 +184,11 @@ public class HomePageFragment extends Fragment {
         });
 
         lesson_practice_button.setOnClickListener(view -> {
-            mMainActivity.setSectionFragment(new TopicPracticeFragment(), null);
+            mMainActivity.setSectionFragment(new TopicListFragment(), null, false);
+        });
+
+        exam_button.setOnClickListener(view -> {
+            mMainActivity.setSectionFragment(new ExamsListFragment(), listTopicBundle, false);
         });
 
         return groupView;
@@ -202,7 +209,6 @@ public class HomePageFragment extends Fragment {
     private void initUI() {
         listViewLessonPractice = groupView.findViewById(R.id.list_daily_practice);
         listViewRecentlyLessonPractice = groupView.findViewById(R.id.list_daily_recently_learn);
-        bottom_main_nav_view = groupView.findViewById(R.id.bottom_main_nav_view);
         hello_home_txt = groupView.findViewById(R.id.hello_home_txt);
         home_button = groupView.findViewById(R.id.home_button);
         remind_english = groupView.findViewById(R.id.remind_english);
@@ -214,7 +220,7 @@ public class HomePageFragment extends Fragment {
         begin_learning_layout = groupView.findViewById(R.id.begin_learning_layout);
         lesson_practice_button = groupView.findViewById(R.id.lesson_practice_button);
         notebooks_button = groupView.findViewById(R.id.notebooks_button);
-        exam_button = groupView.findViewById(R.id.card_avatar);
+        exam_button = groupView.findViewById(R.id.exam_button);
         recently_layout = groupView.findViewById(R.id.recently_layout);
     }
 }

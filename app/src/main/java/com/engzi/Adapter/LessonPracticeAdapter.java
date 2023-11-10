@@ -85,7 +85,7 @@ public class LessonPracticeAdapter extends RecyclerView.Adapter<LessonPracticeAd
         return listLesson.size();
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvTopic, tvName;
         CardView lesson_card_item;
         ImageView lesson_thumb;

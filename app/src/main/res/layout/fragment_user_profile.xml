@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/bevietnampro_bold"
             android:includeFontPadding="false"
-            android:text="Profile"
+            android:text="Hồ sơ"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
     </androidx.appcompat.widget.Toolbar>

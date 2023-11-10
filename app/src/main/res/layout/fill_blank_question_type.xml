@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:background="@color/background_primary"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:fontFamily="@font/bevietnampro_light"
+            android:text="Fill in the blank"
+            android:textColor="@color/primary"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/sentences_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/question_label"
+            android:fontFamily="@font/bevietnampro_light"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp"
+            android:text="There are two...seasons per year"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edtxt_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/edtxt_background"
+        android:fontFamily="@font/bevietnampro_light"
+        android:hint="Answer here"
+        android:importantForAutofill="no"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:textColor="@color/primary"
+        android:textColorHint="@color/primary"
+        android:textCursorDrawable="@drawable/edtxt_cursor"
+        android:textSize="15sp"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

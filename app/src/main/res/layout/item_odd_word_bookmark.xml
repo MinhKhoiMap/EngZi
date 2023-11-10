@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/word_item"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:layout_marginVertical="2dp"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingHorizontal="14dp">
+
+    <TextView
+        android:id="@+id/english_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:includeFontPadding="false"
+        android:text="Rainy"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/word_vowel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/bevietnampro_light"
+        android:includeFontPadding="false"
+        android:text="/ˈreɪ.ni/"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/translate_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/bevietnampro_light"
+        android:includeFontPadding="false"
+        android:text="có mưa"
+        android:textSize="12sp" />
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:background="@drawable/word_tag_bg"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:src="@drawable/ic_tag" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/topic_tag"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:fontFamily="@font/bevietnampro_extralight"-->
+    <!--            android:includeFontPadding="false"-->
+    <!--            android:text="Weather"-->
+    <!--            android:textSize="12sp" />-->
+    <!--    </LinearLayout>-->
+</LinearLayout>

@@ -211,8 +211,8 @@ public class LessonActivity extends AppCompatActivity {
                     .setCustomAnimations(
                             R.animator.card_flip_right_enter, //enter
                             R.animator.card_flip_right_exit, //exit
-                            R.animator.card_flip_left_enter,
-                            R.animator.card_flip_left_exit
+                            R.animator.card_flip_left_enter, // popEnter
+                            R.animator.card_flip_left_exit // popExit
                     )
                     .replace(flash_card.getId(), cardBackFragment)
                     .addToBackStack(null)

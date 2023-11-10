@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AvatarFragment extends Fragment {
+    MainActivity mMainActivity;
     String avatar_url;
     List<String> avatar_urls = new ArrayList<>();
     int positionCurrentChecked;
@@ -53,7 +54,7 @@ public class AvatarFragment extends Fragment {
     ImageView preview_avatar;
     RecyclerView choose_avatar;
     AppCompatButton confirm_change_button;
-    Toolbar profile_toolbar;
+    Toolbar avatar_toolbar;
 
     //    Layout
     ConstraintLayout success_popup;
@@ -65,6 +66,7 @@ public class AvatarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         groupView = inflater.inflate(R.layout.fragment_avatar, container, false);
+        mMainActivity = (MainActivity) getActivity();
 
         assert getArguments() != null;
         avatar_url = (String) getArguments().get("avatar_url");
@@ -77,7 +79,8 @@ public class AvatarFragment extends Fragment {
         confirm_change_button.setOnClickListener(view -> {
         });
 
-        profile_toolbar.setNavigationOnClickListener(view -> {
+        avatar_toolbar.setNavigationOnClickListener(view -> {
+            mMainActivity.getSupportFragmentManager().popBackStack();
         });
 
         confirm_change_button.setOnClickListener(view -> {
@@ -114,7 +117,7 @@ public class AvatarFragment extends Fragment {
         preview_avatar = groupView.findViewById(R.id.preview_avatar);
         choose_avatar = groupView.findViewById(R.id.choose_avatar);
         confirm_change_button = groupView.findViewById(R.id.confirm_change_button);
-        profile_toolbar = groupView.findViewById(R.id.profile_toolbar);
+        avatar_toolbar = groupView.findViewById(R.id.avatar_toolbar);
         success_popup = groupView.findViewById(R.id.success_popup);
     }
 
@@ -141,6 +144,7 @@ public class AvatarFragment extends Fragment {
     public ImageView getPreview_avatar() {
         return preview_avatar;
     }
+
     public void setCurrentChooseItem(View currentChooseItem) {
         this.currentChooseItem = currentChooseItem;
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/answer_button"
+    android:fontFamily="@font/bevietnampro_light"
+    android:includeFontPadding="false"
+    android:text="đáp án đúng"
+    android:textAlignment="center"
+    android:textAllCaps="false"
+    android:textColor="@color/primary"
+    android:textSize="16sp"
+    app:layout_constraintHeight_max="30dp" />

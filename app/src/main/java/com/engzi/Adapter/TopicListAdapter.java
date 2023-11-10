@@ -1,21 +1,24 @@
 package com.engzi.Adapter;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
 
 import java.util.List;
 
-public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_TOPIC_UN_COMPLETE = 1;
     private static final int TYPE_TOPIC_COMPLETE = 2;
     private List<LessonPractice> mListTopic;
@@ -49,10 +52,22 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
             TopicPracticeComplete topicPracticeComplete = (TopicPracticeComplete) holder;
             topicPracticeComplete.lesson_name.setText(topicPractice.getLesson_name());
             topicPracticeComplete.topic_name.setText(topicPractice.getTopic_name());
+
+            if (topicPractice.getThumbnail() != null)
+                Glide.with(holder.itemView.getContext()).load(topicPractice.getThumbnail())
+                        .placeholder(R.drawable.hold_sign)
+                        .transition(withCrossFade())
+                        .into(topicPracticeComplete.lesson_thumb);
         } else if (TYPE_TOPIC_UN_COMPLETE == holder.getItemViewType()) {
             TopicPracticeUnComplete topicPracticeUnComplete = (TopicPracticeUnComplete) holder;
             topicPracticeUnComplete.lesson_name.setText(topicPractice.getLesson_name());
             topicPracticeUnComplete.topic_name.setText(topicPractice.getTopic_name());
+
+            if (topicPractice.getThumbnail() != null)
+                Glide.with(holder.itemView.getContext()).load(topicPractice.getThumbnail())
+                        .placeholder(R.drawable.hold_sign)
+                        .transition(withCrossFade())
+                        .into(topicPracticeUnComplete.lesson_thumb);
         }
     }
 
@@ -75,21 +90,25 @@ public class TopicPracticeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class TopicPracticeUnComplete extends RecyclerView.ViewHolder {
         private final TextView lesson_name, topic_name;
+        private final ImageView lesson_thumb;
 
         public TopicPracticeUnComplete(@NonNull View itemView) {
             super(itemView);
             lesson_name = itemView.findViewById(R.id.title_topic_practice);
             topic_name = itemView.findViewById(R.id.des_topic_practice);
+            lesson_thumb = itemView.findViewById(R.id.lesson_thumb);
         }
     }
 
     public static class TopicPracticeComplete extends RecyclerView.ViewHolder {
         private final TextView lesson_name, topic_name;
+        private final ImageView lesson_thumb;
 
         public TopicPracticeComplete(@NonNull View itemView) {
             super(itemView);
             lesson_name = itemView.findViewById(R.id.title_topic_practice);
             topic_name = itemView.findViewById(R.id.des_topic_practice);
+            lesson_thumb = itemView.findViewById(R.id.lesson_thumb);
         }
     }
 }
