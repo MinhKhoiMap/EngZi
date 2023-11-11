@@ -1,9 +1,6 @@
 package com.engzi.Services;
 
-import android.util.Log;
-
 import com.engzi.Interface.IServiceCallBack;
-import com.engzi.Model.FlashCard;
 import com.engzi.Utils.FireBaseUtils;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
@@ -19,11 +16,11 @@ public class NoteBookServices {
     }
 
     //    Read Services
-    public void getNotebookCardOrderByLevel(int level, IServiceCallBack callBack) {
+    public void getAllNotebookCard(IServiceCallBack callBack) {
         String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         mFCollection.document(UID).get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    List<String> notebookCardID = (List<String>) documentSnapshot.get("level_" + level);
+                    List<String> notebookCardID = (List<String>) documentSnapshot.get("learnt_words");
                     FlashCardServices flashCardServices = new FlashCardServices();
                     if (notebookCardID != null) {
                         for (String cardID : notebookCardID) {
@@ -54,11 +51,11 @@ public class NoteBookServices {
 
 
     //    Create + Update Services
-    public void updateNoteBookOrderByLevel(int level, String cardID, IServiceCallBack callBack) {
+    public void updateNoteBook(String cardID, IServiceCallBack callBack) {
         String UID = Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getUid();
         mFCollection
                 .document(UID)
-                .update("level_" + level, FieldValue.arrayUnion(cardID))
+                .update("learnt_words", FieldValue.arrayUnion(cardID))
                 .addOnFailureListener(callBack::onFailed);
     }
 }

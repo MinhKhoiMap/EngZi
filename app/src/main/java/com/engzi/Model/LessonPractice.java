@@ -78,17 +78,4 @@ public class LessonPractice implements Serializable {
         }
         return 0;
     }
-
-    @Override
-    public String toString() {
-        return "LessonPractice{" +
-                "lessonID='" + lessonID + '\'' +
-                ", thumbnail='" + thumbnail + '\'' +
-                ", topic_name='" + topic_name + '\'' +
-                ", description='" + lesson_name + '\'' +
-                ", list_cards=" + list_cards +
-                ", last_position_card=" + last_position_card +
-                ", percent=" + getCompletion_percent() +
-                '}';
-    }
 }

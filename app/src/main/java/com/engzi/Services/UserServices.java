@@ -59,7 +59,10 @@ public class UserServices {
         mFCollection.document(UID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     User user = documentSnapshot.toObject(User.class);
-                    user.setEmail(Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getEmail());
+                    if (user != null) {
+                        user.setEmail(Objects.requireNonNull(FireBaseUtils.mAuth.getCurrentUser()).getEmail());
+                        user.setUID(FireBaseUtils.mAuth.getCurrentUser().getUid());
+                    }
                     callBack.retrieveData(user);
                     callBack.onComplete();
                 })

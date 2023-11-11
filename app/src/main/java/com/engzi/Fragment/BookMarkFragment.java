@@ -46,7 +46,7 @@ public class BookMarkFragment extends Fragment {
 
         initUI();
 
-        noteBookServices.getNotebookCardOrderByLevel(1, new IServiceCallBack() {
+        noteBookServices.getAllNotebookCard(new IServiceCallBack() {
             @Override
             public void retrieveData(Object response) {
                 bookmarkList.add((FlashCard) response);
@@ -66,7 +66,7 @@ public class BookMarkFragment extends Fragment {
                                 return false;
                             }
                         };
-                
+
                 ListWordAdapter listWordAdapter = new ListWordAdapter(bookmarkList, (position) -> {
                     View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_layout, null);
                     TextView english_word = popupView.findViewById(R.id.english_word),

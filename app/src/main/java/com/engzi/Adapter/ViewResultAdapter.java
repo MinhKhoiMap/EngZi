@@ -1,5 +1,6 @@
 package com.engzi.Adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class ViewResultAdapter extends RecyclerView.Adapter<ViewResultAdapter.My
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewResultAdapter.MyViewHolder holder, int position) {
         Question question = questionList.get(position);
@@ -47,7 +49,7 @@ public class ViewResultAdapter extends RecyclerView.Adapter<ViewResultAdapter.My
         if (question.getUserAnswer() != null && !question.getUserAnswer().isEmpty()) {
             holder.user_answer.setText(question.getUserAnswer());
         } else {
-            holder.user_answer.setTextColor(Color.parseColor("#B74444"));
+            holder.user_answer.setTextColor(Color.parseColor("#5c5c5c"));
             holder.user_answer.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
         }
         holder.correct_answer.setText(question.getEnglish_word());

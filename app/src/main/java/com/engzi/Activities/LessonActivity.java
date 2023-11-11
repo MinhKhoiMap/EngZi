@@ -1,10 +1,10 @@
 package com.engzi.Activities;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
@@ -19,11 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.engzi.Fragment.CardBackFragment;
 import com.engzi.Fragment.CardFrontFragment;
 import com.engzi.Fragment.DoneLessonPopUpFragment;
+import com.engzi.Fragment.ExamsListFragment;
+import com.engzi.Fragment.HomePageFragment;
 import com.engzi.Fragment.QuittingPopUpFragment;
 import com.engzi.Interface.IServiceCallBack;
 import com.engzi.Model.FlashCard;
@@ -90,7 +91,7 @@ public class LessonActivity extends AppCompatActivity {
         }
 
         getListCard();
-
+        
         gestureDetector = new GestureDetector(this, new MyGesture());
         initUI();
 
@@ -234,7 +235,7 @@ public class LessonActivity extends AppCompatActivity {
             if (e1.getX() - e2.getX() > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (positionCard < flashCardList.size() - 1) {
                     positionCard += 1;
-                    noteBookServices.updateNoteBookOrderByLevel(1, flashCardList.get(positionCard).getCardID(),
+                    noteBookServices.updateNoteBook(flashCardList.get(positionCard).getCardID(),
                             new IServiceCallBack() {
                                 @Override
                                 public void retrieveData(Object response) {

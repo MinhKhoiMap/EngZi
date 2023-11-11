@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void retrieveData(Object response) {
                     userProfile = (User) response;
-                    userProfile.setEmail(FireBaseUtils.mAuth.getCurrentUser().getEmail());
-                    userProfile.setUID(FireBaseUtils.mAuth.getCurrentUser().getUid());
                 }
 
                 @Override
@@ -77,9 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onComplete() {
-                    userBundle = new Bundle();
-                    userBundle.putSerializable("userProfile", userProfile);
-                    setSectionFragment(home_section, userBundle, false);
+                    if (userProfile != null) {
+                        userBundle = new Bundle();
+                        userBundle.putSerializable("userProfile", userProfile);
+                        setSectionFragment(home_section, userBundle, false);
+                    } else {
+                        FireBaseUtils.mAuth.signOut();
+                        finish();
+                    }
                 }
             });
         }

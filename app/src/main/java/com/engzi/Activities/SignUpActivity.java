@@ -173,24 +173,27 @@ public class SignUpActivity extends AppCompatActivity {
                                                 public void onComplete() {
                                                     Intent homePageIntent = new Intent(getBaseContext(), MainActivity.class);
                                                     Bundle userBundle = new Bundle();
-//                                        userBundle.putSerializable("userProfile", userProfile);
-//                                        homePageIntent.putExtras(userBundle);
+                                                    userBundle.putSerializable("userProfile", userProfile);
+                                                    homePageIntent.putExtras(userBundle);
                                                     startActivity(homePageIntent);
                                                     finish();
                                                 }
                                             });
                                 } else {
                                     Toast.makeText(getApplicationContext(), task.getResult().toString(), Toast.LENGTH_SHORT).show();
+                                    signup_btn.setError("Try Again");
                                 }
                             });
                 } else {
                     Toast.makeText(getApplicationContext(), "sai confirm pass", Toast.LENGTH_SHORT).show();
+                    signup_confirm_password_edtxt.setError("Difference from password");
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "password co dau khoang trang", Toast.LENGTH_SHORT).show();
+                signup_password_edtxt.setError("Password doesn't contain space");
             }
         } else {
-            Toast.makeText(getApplicationContext(), "sai format email", Toast.LENGTH_SHORT).show();
+            email_edtxt.setError("Wrong Email Address");
         }
     }
 

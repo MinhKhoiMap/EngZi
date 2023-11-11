@@ -37,13 +37,8 @@ public class ResultActivity extends AppCompatActivity {
 
         Intent examIntent = getIntent();
         questionList = (List<Question>) examIntent.getSerializableExtra("question_list");
+        score = examIntent.getIntExtra("score", 0);
 
-        assert questionList != null;
-        for (Question question : questionList) {
-            if (question.getUserAnswer() != null)
-                if (question.getUserAnswer().toLowerCase().trim().equals(question.getEnglish_word().toLowerCase().trim()))
-                    score++;
-        }
         score_txt.setText(String.format("%d/%d", score, 10));
         if (score >= 5) {
             reaction_img.setImageDrawable(getDrawable(R.drawable.teaching_correct));
@@ -60,6 +55,7 @@ public class ResultActivity extends AppCompatActivity {
             Intent viewResultIntent = new Intent(this, ViewResultActivity.class);
             Bundle questionListBundle = new Bundle();
             questionListBundle.putSerializable("question_list", (Serializable) questionList);
+            questionListBundle.putInt("score", score);
             viewResultIntent.putExtras(questionListBundle);
             startActivity(viewResultIntent);
         });

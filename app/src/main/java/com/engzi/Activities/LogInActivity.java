@@ -30,8 +30,7 @@ public class LogInActivity extends AppCompatActivity {
     TextView to_signup_button;
     Button toggle_show_password_button;
     AppCompatButton login_btn;
-    EditText login_email_edtxt;
-    EditText login_password_edtxt;
+    EditText login_email_edtxt, login_password_edtxt;
 
     FirebaseAuth mFirebaseAuth = FireBaseUtils.mAuth;
 

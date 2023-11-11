@@ -78,6 +78,7 @@
         android:layout_gravity="bottom"
         android:layout_weight=".4"
         android:translationZ="999dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar

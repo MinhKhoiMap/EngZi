@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.engzi.Activities.MainActivity;
 import com.engzi.Adapter.LessonPracticeAdapter;
@@ -79,7 +78,7 @@ public class HomePageFragment extends Fragment {
 
         if (flashCards == null) {
             flashCards = new ArrayList<>();
-            noteBookServices.getNotebookCardOrderByLevel(1, new IServiceCallBack() {
+            noteBookServices.getAllNotebookCard(new IServiceCallBack() {
                 @Override
                 public void retrieveData(Object response) {
                     flashCards.add((FlashCard) response);
@@ -151,7 +150,6 @@ public class HomePageFragment extends Fragment {
         userServices.getRecentlyLessonList(new IServiceCallBack() {
             @Override
             public void retrieveData(Object response) {
-                Log.d("recently lessonsssss", ((LessonPractice) response).getTopic_name());
                 recentlyLesson.add((LessonPractice) response);
             }
 
@@ -162,9 +160,7 @@ public class HomePageFragment extends Fragment {
 
             @Override
             public void onComplete() {
-//                Log.d("TAG12313", "onComplete: " + recentlyLesson.size());
                 if (recentlyLesson.size() < 1) {
-                    Toast.makeText(getActivity(), "Chua co hoc gi het", Toast.LENGTH_SHORT).show();
                     listViewRecentlyLessonPractice.setVisibility(View.INVISIBLE);
                     begin_learning_layout.setVisibility(View.VISIBLE);
                     ((ViewGroup) container.findViewById(R.id.main_layout)).removeView(remind_layout);

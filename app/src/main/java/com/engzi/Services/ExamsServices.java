@@ -51,9 +51,11 @@ public class ExamsServices {
                         equalTo("topic_id", lessonID)
                 )).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                    String result = (String) document.get("result");
-
+                    String result = null;
+                    if (queryDocumentSnapshots.getDocuments().size() > 0) {
+                        DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                        result = (String) document.get("result");
+                    }
                     callBack.retrieveData(result);
                     callBack.onComplete();
                 })

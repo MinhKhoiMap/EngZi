@@ -36,10 +36,11 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:text="INCORRECT"
-                android:textColor="#28A164"
+                android:textColor="#B74444"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="HardcodedText" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,7 +73,8 @@
                 android:text="BLANK"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

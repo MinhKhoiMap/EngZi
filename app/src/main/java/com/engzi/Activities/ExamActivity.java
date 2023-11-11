@@ -51,6 +51,7 @@ public class ExamActivity extends AppCompatActivity {
     //    List<Map<String, String>> userAnswerRecord;
     List<Question> questionList;
     int currentPosition = 0;
+    boolean isHaveRecord;
 
     //    View
     View question_layout;
@@ -74,6 +75,7 @@ public class ExamActivity extends AppCompatActivity {
         flashCards = new ArrayList<>();
         Intent topicIntent = getIntent();
         topicExam = (LessonPractice) topicIntent.getSerializableExtra("topicObject");
+        isHaveRecord = topicIntent.getBooleanExtra("isHaveRecord", false);
 
         getListCard();
         questionList = new ArrayList<>();
@@ -93,10 +95,47 @@ public class ExamActivity extends AppCompatActivity {
                 handleNextQuestion();
                 next_navigate.setText("Submit");
             } else {
+                int score = calScore();
+                if (isHaveRecord) {
+                    examsServices.updateExamRecords(topicExam.getLessonID(), String.format("%d/%d", score, 10), new IServiceCallBack() {
+                        @Override
+                        public void retrieveData(Object response) {
+
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d("RESULT", "Complete");
+                        }
+                    });
+                } else {
+                    examsServices.createExamRecord(topicExam.getLessonID(), String.format("%d/%d", score, 10), new IServiceCallBack() {
+                        @Override
+                        public void retrieveData(Object response) {
+
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d("LKJSF", "Complete create record");
+                        }
+                    });
+                }
 
                 Intent resultIntent = new Intent(this, ResultActivity.class);
                 Bundle questionListBundle = new Bundle();
                 questionListBundle.putSerializable("question_list", (Serializable) questionList);
+                questionListBundle.putInt("score", score);
                 resultIntent.putExtras(questionListBundle);
                 startActivity(resultIntent);
                 finish();
@@ -112,6 +151,16 @@ public class ExamActivity extends AppCompatActivity {
         exam_toolbar.setNavigationOnClickListener(view -> {
             onBackPressed();
         });
+    }
+
+    private int calScore() {
+        int score = 0;
+        for (Question question : questionList) {
+            if (question.getUserAnswer() != null)
+                if (question.getUserAnswer().toLowerCase().trim().equals(question.getEnglish_word().toLowerCase().trim()))
+                    score++;
+        }
+        return score;
     }
 
     private void handleLoadQuestion() {
