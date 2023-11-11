@@ -85,7 +85,6 @@ public class LogInActivity extends AppCompatActivity {
 
         login_btn.setOnClickListener(view -> {
             login_btn.setEnabled(false);
-            login_btn.setTextColor(getColor(R.color.yellow_kv));
             logInWithFirebaseAuth();
         });
     }
@@ -118,10 +117,10 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                         login_btn.setEnabled(true);
-                        login_btn.setTextColor(getColor(R.color.white));
                     });
         } else {
             login_email_edtxt.setError("Invalid Email!");
+            login_btn.setEnabled(true);
         }
     }
 
@@ -135,12 +134,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void triggerInput() {
-        if (login_email_edtxt.getText().toString().trim().isEmpty()) {
-            login_btn.setEnabled(false);
-            login_btn.setTextColor(getColor(R.color.coffeeKV));
-        } else {
-            login_btn.setEnabled(true);
-            login_btn.setTextColor(getColor(R.color.white));
-        }
+        login_btn.setEnabled(!login_email_edtxt.getText().toString().trim().isEmpty());
     }
 }

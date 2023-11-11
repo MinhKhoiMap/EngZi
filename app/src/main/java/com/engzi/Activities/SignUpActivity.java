@@ -195,6 +195,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             email_edtxt.setError("Wrong Email Address");
         }
+        signup_btn.setEnabled(true);
     }
 
     private boolean handle_toggle_show_password(EditText targetView, MotionEvent motionEvent) {
@@ -211,13 +212,7 @@ public class SignUpActivity extends AppCompatActivity {
         String password = signup_password_edtxt.getText().toString();
         String confirmPassword = signup_confirm_password_edtxt.getText().toString();
 
-        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            signup_btn.setEnabled(false);
-            signup_btn.setTextColor(getColor(R.color.black));
-        } else {
-            signup_btn.setEnabled(true);
-            signup_btn.setTextColor(getColor(R.color.white));
-        }
+        signup_btn.setEnabled(!email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty());
     }
 
 }
