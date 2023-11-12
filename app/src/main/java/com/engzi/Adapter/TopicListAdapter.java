@@ -3,6 +3,8 @@ package com.engzi.Adapter;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.engzi.Activities.LessonActivity;
 import com.engzi.Model.LessonPractice;
 import com.engzi.R;
+import com.engzi.Services.UserServices;
 
 import java.util.List;
 
@@ -69,6 +73,16 @@ public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .transition(withCrossFade())
                         .into(topicPracticeUnComplete.lesson_thumb);
         }
+        final LessonPractice lessonPractice = mListTopic.get(position);
+        holder.itemView.setOnClickListener(view -> {
+            UserServices userServices = new UserServices();
+            userServices.updateRecentlyLesson(lessonPractice.getLessonID(), lessonPractice.getLast_position_card());
+            Intent lessonDetailIntent = new Intent(holder.itemView.getContext(), LessonActivity.class);
+            Bundle lessonBundle = new Bundle();
+            lessonBundle.putSerializable("lesson", lessonPractice);
+            lessonDetailIntent.putExtras(lessonBundle);
+            holder.itemView.getContext().startActivity(lessonDetailIntent);
+        });
     }
 
     @Override

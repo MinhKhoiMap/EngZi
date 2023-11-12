@@ -187,6 +187,10 @@ public class HomePageFragment extends Fragment {
             mMainActivity.setSectionFragment(new ExamsListFragment(), listTopicBundle, false);
         });
 
+        notebooks_button.setOnClickListener(view -> {
+            mMainActivity.setSectionFragment(new BookMarkFragment(), null, false);
+        });
+
         return groupView;
     }
 

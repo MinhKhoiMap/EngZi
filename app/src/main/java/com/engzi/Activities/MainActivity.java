@@ -114,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//    }
+
     private void initUI() {
         section_layout = findViewById(R.id.section_layout);
         bottom_main_nav_view = findViewById(R.id.bottom_main_nav_view);
