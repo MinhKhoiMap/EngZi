@@ -1,5 +1,6 @@
 package com.engzi.Fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -26,13 +27,14 @@ import java.util.List;
 
 public class BookMarkFragment extends Fragment {
     MainActivity mMainActivity;
-    List<FlashCard> bookmarkList = new ArrayList<>();
+    List<FlashCard> bookmarkList;
 
     //    View
     View groupView;
     RecyclerView list_words;
     FrameLayout word_detail_pop_up;
     Toolbar bookmark_toolbar;
+    TextView text_placeholder;
 
     //    Services
     NoteBookServices noteBookServices = new NoteBookServices();
@@ -43,6 +45,7 @@ public class BookMarkFragment extends Fragment {
         groupView = inflater.inflate(R.layout.fragment_book_mark, container, false);
 
         mMainActivity = (MainActivity) getActivity();
+        bookmarkList = new ArrayList<>();
 
         initUI();
 
@@ -59,42 +62,47 @@ public class BookMarkFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                LinearLayoutManager mLinearLayoutManager =
-                        new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
-                            @Override
-                            public boolean canScrollVertically() {
-                                return false;
-                            }
-                        };
+                if (bookmarkList.size() > 0) {
+                    text_placeholder.setVisibility(View.INVISIBLE);
+                    LinearLayoutManager mLinearLayoutManager =
+                            new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
+                                @Override
+                                public boolean canScrollVertically() {
+                                    return false;
+                                }
+                            };
 
-                ListWordAdapter listWordAdapter = new ListWordAdapter(bookmarkList, (position) -> {
-                    View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_layout, null);
-                    TextView english_word = popupView.findViewById(R.id.english_word),
-                            word_vowel = popupView.findViewById(R.id.word_vowel),
-                            word_translate = popupView.findViewById(R.id.word_translate),
-                            word_example = popupView.findViewById(R.id.word_example);
+                    @SuppressLint("SetTextI18n") ListWordAdapter listWordAdapter = new ListWordAdapter(bookmarkList, (position) -> {
+                        View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_layout, null);
+                        TextView english_word = popupView.findViewById(R.id.english_word),
+                                word_vowel = popupView.findViewById(R.id.word_vowel),
+                                word_translate = popupView.findViewById(R.id.word_translate),
+                                word_example = popupView.findViewById(R.id.word_example);
 
-                    FlashCard clickedWord = bookmarkList.get(position);
+                        FlashCard clickedWord = bookmarkList.get(position);
 
-                    english_word.setText(clickedWord.getEnglish_word());
-                    word_vowel.setText(clickedWord.getVowel());
-                    word_translate.setText(clickedWord.getTranslate_word());
-                    word_example.setText("Ex: " + clickedWord.getExample());
+                        english_word.setText(clickedWord.getEnglish_word());
+                        word_vowel.setText(clickedWord.getVowel());
+                        word_translate.setText(clickedWord.getTranslate_word());
+                        word_example.setText("Ex: " + clickedWord.getExample());
 
-                    if (word_detail_pop_up.getChildCount() > 0) {
-                        word_detail_pop_up.removeAllViews();
-                    }
+                        if (word_detail_pop_up.getChildCount() > 0) {
+                            word_detail_pop_up.removeAllViews();
+                        }
 
-                    word_detail_pop_up.addView(popupView);
+                        word_detail_pop_up.addView(popupView);
 
-                    popupView.findViewById(R.id.close_modal).setOnClickListener(view -> {
-                        word_detail_pop_up.removeView(popupView);
+                        popupView.findViewById(R.id.close_modal).setOnClickListener(view -> {
+                            word_detail_pop_up.removeView(popupView);
+                        });
+                        list_words.setClickable(false);
                     });
-                    list_words.setClickable(false);
-                });
 
-                list_words.setLayoutManager(mLinearLayoutManager);
-                list_words.setAdapter(listWordAdapter);
+                    list_words.setLayoutManager(mLinearLayoutManager);
+                    list_words.setAdapter(listWordAdapter);
+                } else {
+                    text_placeholder.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -112,5 +120,6 @@ public class BookMarkFragment extends Fragment {
         list_words = groupView.findViewById(R.id.list_words);
         word_detail_pop_up = groupView.findViewById(R.id.word_detail_pop_up);
         bookmark_toolbar = groupView.findViewById(R.id.bookmark_toolbar);
+        text_placeholder = groupView.findViewById(R.id.text_placeholder);
     }
 }

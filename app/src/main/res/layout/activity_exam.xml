@@ -82,6 +82,7 @@
                 android:background="@drawable/no_bg_button_hover"
                 android:text="Previous"
                 android:textAllCaps="false"
+                android:textColor="@drawable/txtcolor_no_bg_button_hover"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -134,7 +135,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_home"
             app:backgroundTint="@color/white"
-            app:layout_anchor="@id/bottom_main_nav"
+            app:layout_anchor="@+id/bottom_main_nav"
+            app:layout_anchorGravity="top|center"
             app:tint="@color/primary"
             tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -334,6 +334,7 @@
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/navigate_exam_list"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@drawable/no_bg_button_hover"

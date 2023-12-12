@@ -33,6 +33,7 @@ import com.engzi.Utils.FillBlankQuestion;
 import com.engzi.Utils.MultipleChoiceQuestion;
 import com.engzi.Utils.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class ExamActivity extends AppCompatActivity {
     LinearLayout exam_layout;
     BottomNavigationView bottom_main_nav_view;
     AppCompatButton next_navigate, previous_navigate;
+    FloatingActionButton home_button;
 
     //    Services
     FlashCardServices flashCardServices = new FlashCardServices();
@@ -150,6 +152,10 @@ public class ExamActivity extends AppCompatActivity {
 
         exam_toolbar.setNavigationOnClickListener(view -> {
             onBackPressed();
+        });
+
+        home_button.setOnClickListener(view -> {
+            finish();
         });
     }
 
@@ -313,6 +319,12 @@ public class ExamActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        question_type_layout.removeAllViews();
+    }
+
     private void initUI() {
         exam_toolbar = findViewById(R.id.exam_toolbar);
         exam_topic_title = findViewById(R.id.exam_topic_title);
@@ -322,19 +334,10 @@ public class ExamActivity extends AppCompatActivity {
         previous_navigate = findViewById(R.id.previous_navigate);
         progress_question = findViewById(R.id.progress_question);
         exam_layout = findViewById(R.id.exam_layout);
+        home_button = findViewById(R.id.home_button);
 
         bottom_main_nav_view.setBackground(null);
         bottom_main_nav_view.getMenu().getItem(2).setChecked(true);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        question_type_layout.removeAllViews();
-    }
-
-    public Question getQuestion(int position) {
-        return questionList.get(position);
-    }
 }

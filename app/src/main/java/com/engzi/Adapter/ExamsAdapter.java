@@ -78,6 +78,16 @@ public class ExamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             mContext.startActivity(examIntent);
         });
+
+        ((ExamsListViewHolder) holder).start_exam_button.setOnClickListener(view -> {
+            Intent examIntent = new Intent(mContext, ExamActivity.class);
+            Bundle examTopicBundle = new Bundle();
+            examTopicBundle.putSerializable("topicObject", topic);
+            examTopicBundle.putBoolean("isHaveRecord", mListTopic.get(position).get("score") != null);
+            examIntent.putExtras(examTopicBundle);
+
+            mContext.startActivity(examIntent);
+        });
     }
 
     @Override

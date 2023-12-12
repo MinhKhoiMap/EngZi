@@ -4,6 +4,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -74,6 +75,8 @@ public class UserProfileFragment extends Fragment {
         });
 
         update_username_button.setOnClickListener(view -> {
+            username_edtxt.setBackground(getResources().getDrawable(R.drawable.edtxt_disable_background));
+            username_edtxt.setTextColor(Color.parseColor("#A4A4A4"));
             String newName = username_edtxt.getText().toString().trim();
             userServices.updateUserProfile("profileName", newName, new IServiceCallBack() {
                 @Override
@@ -89,11 +92,15 @@ public class UserProfileFragment extends Fragment {
                 @Override
                 public void onComplete() {
                     username_edtxt.clearFocus();
+                    username_edtxt.setBackground(getResources().getDrawable(R.drawable.edtxt_background));
+                    username_edtxt.setTextColor(getResources().getColor(R.color.primary));
                 }
             });
         });
 
         update_password_button.setOnClickListener(view -> {
+            password_edtxt.setBackground(getResources().getDrawable(R.drawable.edtxt_disable_background));
+            password_edtxt.setTextColor(Color.parseColor("#A4A4A4"));
             String newPass = password_edtxt.getText().toString().trim();
             userServices.updateUserPassword(newPass, new IServiceCallBack() {
                 @Override
@@ -109,6 +116,8 @@ public class UserProfileFragment extends Fragment {
                 @Override
                 public void onComplete() {
                     username_edtxt.clearFocus();
+                    password_edtxt.setBackground(getResources().getDrawable(R.drawable.edtxt_background));
+                    username_edtxt.setTextColor(getResources().getColor(R.color.primary));
                 }
             });
         });

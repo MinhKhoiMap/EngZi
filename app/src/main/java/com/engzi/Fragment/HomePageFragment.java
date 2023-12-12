@@ -3,6 +3,7 @@ package com.engzi.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -49,6 +50,7 @@ public class HomePageFragment extends Fragment {
     TextView hello_home_txt, remind_english, remind_vowel, remind_translate, remind_example;
     CardView remind_layout;
     FloatingActionButton home_button;
+    AppCompatButton navigate_exam_list;
     ConstraintLayout begin_learning_layout, recently_layout;
     LinearLayout lesson_practice_button, notebooks_button, exam_button;
 
@@ -191,6 +193,10 @@ public class HomePageFragment extends Fragment {
             mMainActivity.setSectionFragment(new BookMarkFragment(), null, false);
         });
 
+        navigate_exam_list.setOnClickListener(view -> {
+            mMainActivity.setSectionFragment(new ExamsListFragment(), listTopicBundle, false);
+        });
+
         return groupView;
     }
 
@@ -222,6 +228,7 @@ public class HomePageFragment extends Fragment {
         notebooks_button = groupView.findViewById(R.id.notebooks_button);
         exam_button = groupView.findViewById(R.id.exam_button);
         recently_layout = groupView.findViewById(R.id.recently_layout);
+        navigate_exam_list = groupView.findViewById(R.id.navigate_exam_list);
     }
 
     public Bundle getListTopicBundle() {
